@@ -23,6 +23,16 @@
       </div>
     </header>
 
+    <section class="project-switcher" aria-label="Saved projects">
+      <label>
+        Saved project
+        <select id="projectSwitcher"></select>
+      </label>
+      <button id="newProject" class="secondary-button" type="button">New</button>
+      <button id="duplicateProject" class="secondary-button" type="button">Duplicate</button>
+      <button id="deleteProject" class="danger-button" type="button">Delete</button>
+    </section>
+
     <main class="app-shell">
       <nav class="sidebar" aria-label="Planner sections">
         <button class="nav-button active" data-section="plan" type="button">Plan</button>
@@ -166,7 +176,7 @@
     </main>
 
     <footer class="app-footer">
-      <button id="savePlan" class="secondary-button" type="button">Save to Browser</button>
+      <button id="savePlan" class="secondary-button" type="button">Save Current Project</button>
       <button id="resetPlan" class="danger-button" type="button">Clear Planner</button>
       <span id="saveStatus" aria-live="polite"></span>
     </footer>

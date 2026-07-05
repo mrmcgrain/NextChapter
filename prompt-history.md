@@ -81,3 +81,15 @@ The prompt history was reviewed after the first build and updated to include the
 **What I learned or changed:**
 
 A GitHub Actions workflow was added for GitHub Pages, the README live demo URL was updated, and the main branch was pushed to trigger deployment. The live site was verified after GitHub Pages finished publishing.
+
+---
+
+## 8. Saved Projects Feature
+
+**Prompt:**
+
+> Let's checkout a new feature branch and create a option for switching through saved projects.
+
+**What I learned or changed:**
+
+A feature branch was created for saved project switching. The app was updated from a single saved planner state to a saved-project collection, with controls to switch, create, duplicate, and delete project plans.
