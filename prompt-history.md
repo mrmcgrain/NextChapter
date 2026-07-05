@@ -57,3 +57,15 @@ The README was structured around the assignment requirements: project name, live
 **What I learned or changed:**
 
 The project was checked against the original submission checklist. The app includes the core value, a clear structure, documentation, prompt history, and code that can be explained during an interview.
+
+---
+
+## 6. Documentation Maintenance
+
+**Prompt:**
+
+> Let's make sure that any prompts are added to the prompt-history.md please.
+
+**What I learned or changed:**
+
+The prompt history was reviewed after the first build and updated to include the follow-up request itself. This keeps the documentation aligned with the actual development conversation instead of only listing sample prompts.
