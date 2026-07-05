@@ -141,3 +141,15 @@ The saved project switcher was updating the current project in memory, but most 
 **What I learned or changed:**
 
 The persistent storage fix was confirmed on the feature branch and pushed so the autosave behavior is available for review.
+
+---
+
+## 13. LocalStorage Refresh Fix
+
+**Prompt:**
+
+> Check out a branch for localStorage refresh issue, the problem right now is that anytime I refresh, localStorage is overwritten.
+
+**What I learned or changed:**
+
+A focused branch was created for the refresh bug. Testing showed that saved-project normalization ran before `validFeatureTypes` was initialized, causing refresh to discard the saved project collection and fall back to legacy/default state. Initialization order was fixed, and app load was made read-only while real user edits still persist.
