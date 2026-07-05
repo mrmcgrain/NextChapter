@@ -1,0 +1,383 @@
+:root {
+  color-scheme: light;
+  --ink: #18202a;
+  --muted: #5f6d7a;
+  --line: #d8dee6;
+  --surface: #ffffff;
+  --soft: #f4f7fa;
+  --accent: #176b5d;
+  --accent-strong: #0f5147;
+  --warning: #a14c10;
+  --danger: #b23636;
+  --shadow: 0 16px 45px rgba(32, 44, 58, 0.12);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: var(--ink);
+  background: linear-gradient(180deg, #eef3f7 0%, #f8fafb 42%, #ffffff 100%);
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 32px;
+  padding: 40px clamp(20px, 6vw, 72px) 24px;
+  align-items: flex-end;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: var(--accent);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  margin-bottom: 12px;
+  font-size: clamp(2.2rem, 6vw, 4.8rem);
+  line-height: 0.95;
+  letter-spacing: 0;
+}
+
+.intro {
+  max-width: 760px;
+  margin-bottom: 0;
+  color: var(--muted);
+  font-size: 1.12rem;
+  line-height: 1.6;
+}
+
+.score-panel {
+  width: min(260px, 100%);
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.score-label,
+#readinessMessage {
+  display: block;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+#readinessScore {
+  display: block;
+  margin: 8px 0;
+  font-size: 2.6rem;
+}
+
+.app-shell {
+  display: grid;
+  grid-template-columns: 190px minmax(0, 1fr);
+  gap: 24px;
+  padding: 0 clamp(20px, 6vw, 72px) 28px;
+}
+
+.sidebar {
+  position: sticky;
+  top: 18px;
+  align-self: start;
+  display: grid;
+  gap: 8px;
+}
+
+.nav-button,
+.primary-button,
+.secondary-button,
+.danger-button {
+  min-height: 44px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 800;
+}
+
+.nav-button {
+  text-align: left;
+  color: var(--muted);
+  background: transparent;
+  padding: 10px 14px;
+}
+
+.nav-button.active {
+  color: var(--ink);
+  background: var(--surface);
+  border-color: var(--line);
+  box-shadow: 0 8px 24px rgba(32, 44, 58, 0.08);
+}
+
+.workspace {
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow: var(--shadow);
+}
+
+.view {
+  display: none;
+  padding: clamp(22px, 4vw, 40px);
+}
+
+.view.active {
+  display: block;
+}
+
+.section-heading {
+  margin-bottom: 24px;
+}
+
+.section-heading h2 {
+  margin-bottom: 0;
+  font-size: clamp(1.55rem, 3vw, 2.4rem);
+  letter-spacing: 0;
+}
+
+.field-grid,
+.list-columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+label {
+  display: grid;
+  gap: 8px;
+  color: var(--ink);
+  font-weight: 800;
+}
+
+input,
+textarea,
+select {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 12px 13px;
+  color: var(--ink);
+  background: #fff;
+  line-height: 1.4;
+}
+
+textarea {
+  resize: vertical;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: 3px solid rgba(23, 107, 93, 0.18);
+  border-color: var(--accent);
+}
+
+.span-two {
+  grid-column: 1 / -1;
+}
+
+.feature-entry {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 180px 96px;
+  gap: 14px;
+  align-items: end;
+  margin-bottom: 24px;
+}
+
+.primary-button {
+  color: #fff;
+  background: var(--accent);
+}
+
+.primary-button:hover {
+  background: var(--accent-strong);
+}
+
+.secondary-button {
+  color: var(--accent-strong);
+  border-color: var(--accent);
+  background: #fff;
+}
+
+.danger-button {
+  color: #fff;
+  background: var(--danger);
+}
+
+.list-columns article,
+.interview-panel {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 18px;
+  background: var(--soft);
+}
+
+.item-list,
+.timeline,
+.interview-panel ul {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+}
+
+.item-list li,
+.timeline li,
+.checklist label {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  align-items: flex-start;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 12px;
+  background: #fff;
+  font-weight: 600;
+}
+
+.remove-button {
+  flex: 0 0 auto;
+  border: 0;
+  color: var(--danger);
+  background: transparent;
+  cursor: pointer;
+  font-weight: 900;
+}
+
+.output-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 14px;
+}
+
+.output-box {
+  min-height: 520px;
+  overflow: auto;
+  white-space: pre-wrap;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 18px;
+  background: #111820;
+  color: #e8eef3;
+  line-height: 1.55;
+}
+
+.prompt-entry {
+  display: grid;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.timeline li {
+  display: block;
+}
+
+.timeline strong {
+  display: block;
+  color: var(--accent-strong);
+}
+
+.checklist {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.checklist label {
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.checklist input {
+  width: 18px;
+  height: 18px;
+}
+
+.interview-panel li {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.interview-panel li:last-child {
+  border-bottom: 0;
+}
+
+.app-footer {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 14px clamp(20px, 6vw, 72px);
+  border-top: 1px solid var(--line);
+  background: #fff;
+}
+
+#saveStatus {
+  color: var(--muted);
+  font-weight: 700;
+}
+
+@media (max-width: 840px) {
+  .app-header {
+    display: grid;
+  }
+
+  .app-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    position: static;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    overflow-x: auto;
+  }
+
+  .nav-button {
+    text-align: center;
+  }
+
+  .field-grid,
+  .list-columns,
+  .feature-entry {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .app-header {
+    padding-top: 24px;
+  }
+
+  .sidebar {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .app-footer {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}

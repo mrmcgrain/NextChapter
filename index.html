@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Project Launch Planner</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="app-header">
+      <div>
+        <p class="eyebrow">Application planning workspace</p>
+        <h1>Project Launch Planner</h1>
+        <p class="intro">
+          Turn a rough software idea into a clear project plan, README outline,
+          prompt history, and submission checklist.
+        </p>
+      </div>
+      <div class="score-panel" aria-live="polite">
+        <span class="score-label">Readiness</span>
+        <strong id="readinessScore">0%</strong>
+        <span id="readinessMessage">Start by defining the problem.</span>
+      </div>
+    </header>
+
+    <main class="app-shell">
+      <nav class="sidebar" aria-label="Planner sections">
+        <button class="nav-button active" data-section="plan" type="button">Plan</button>
+        <button class="nav-button" data-section="features" type="button">Features</button>
+        <button class="nav-button" data-section="readme" type="button">README</button>
+        <button class="nav-button" data-section="prompts" type="button">Prompts</button>
+        <button class="nav-button" data-section="submit" type="button">Submit</button>
+      </nav>
+
+      <section class="workspace">
+        <section class="view active" id="plan" aria-labelledby="plan-title">
+          <div class="section-heading">
+            <p class="eyebrow">Step 1</p>
+            <h2 id="plan-title">Define the project</h2>
+          </div>
+
+          <form class="field-grid">
+            <label>
+              Project name
+              <input id="projectName" type="text" placeholder="Example: Study Sprint">
+            </label>
+            <label>
+              Target user
+              <input id="targetUser" type="text" placeholder="Example: Students preparing for interviews">
+            </label>
+            <label class="span-two">
+              Problem
+              <textarea id="problem" rows="4" placeholder="What specific problem exists?"></textarea>
+            </label>
+            <label class="span-two">
+              Value
+              <textarea id="value" rows="4" placeholder="How does solving this problem help the user?"></textarea>
+            </label>
+            <label class="span-two">
+              Solution
+              <textarea id="solution" rows="4" placeholder="What will your application do?"></textarea>
+            </label>
+            <label class="span-two">
+              Smallest demonstration of value
+              <textarea id="mvp" rows="4" placeholder="What is the smallest useful version?"></textarea>
+            </label>
+          </form>
+        </section>
+
+        <section class="view" id="features" aria-labelledby="features-title">
+          <div class="section-heading">
+            <p class="eyebrow">Step 2</p>
+            <h2 id="features-title">Separate required and future features</h2>
+          </div>
+
+          <div class="feature-entry">
+            <label>
+              Feature
+              <input id="featureText" type="text" placeholder="Add a feature">
+            </label>
+            <label>
+              Type
+              <select id="featureType">
+                <option value="required">Required</option>
+                <option value="stretch">Future</option>
+              </select>
+            </label>
+            <button id="addFeature" class="primary-button" type="button">Add</button>
+          </div>
+
+          <div class="list-columns">
+            <article>
+              <h3>Required features</h3>
+              <ul id="requiredList" class="item-list"></ul>
+            </article>
+            <article>
+              <h3>Future improvements</h3>
+              <ul id="stretchList" class="item-list"></ul>
+            </article>
+          </div>
+        </section>
+
+        <section class="view" id="readme" aria-labelledby="readme-title">
+          <div class="section-heading">
+            <p class="eyebrow">Step 3</p>
+            <h2 id="readme-title">Generate the README story</h2>
+          </div>
+          <div class="output-actions">
+            <button id="copyReadme" class="secondary-button" type="button">Copy README Draft</button>
+          </div>
+          <pre id="readmeOutput" class="output-box"></pre>
+        </section>
+
+        <section class="view" id="prompts" aria-labelledby="prompts-title">
+          <div class="section-heading">
+            <p class="eyebrow">Step 4</p>
+            <h2 id="prompts-title">Track AI collaboration</h2>
+          </div>
+
+          <div class="prompt-entry">
+            <label>
+              Prompt category
+              <select id="promptCategory">
+                <option>Planning</option>
+                <option>Feature development</option>
+                <option>Code explanation</option>
+                <option>Debugging</option>
+                <option>Verification</option>
+              </select>
+            </label>
+            <label>
+              Prompt used
+              <textarea id="promptText" rows="3" placeholder="Paste a meaningful prompt"></textarea>
+            </label>
+            <label>
+              What changed
+              <textarea id="promptLearning" rows="3" placeholder="What did you learn or change?"></textarea>
+            </label>
+            <button id="addPrompt" class="primary-button" type="button">Save Prompt</button>
+          </div>
+
+          <ul id="promptList" class="timeline"></ul>
+        </section>
+
+        <section class="view" id="submit" aria-labelledby="submit-title">
+          <div class="section-heading">
+            <p class="eyebrow">Step 5</p>
+            <h2 id="submit-title">Submission readiness</h2>
+          </div>
+
+          <div id="checklist" class="checklist"></div>
+
+          <article class="interview-panel">
+            <h3>Interview practice questions</h3>
+            <ul>
+              <li>What problem does your application solve?</li>
+              <li>What value does it create for the user?</li>
+              <li>How did you decide what to build first?</li>
+              <li>How did AI help you during development?</li>
+              <li>What bug did you encounter, and how did you solve it?</li>
+              <li>What would you improve with another weekend?</li>
+            </ul>
+          </article>
+        </section>
+      </section>
+    </main>
+
+    <footer class="app-footer">
+      <button id="savePlan" class="secondary-button" type="button">Save to Browser</button>
+      <button id="resetPlan" class="danger-button" type="button">Clear Planner</button>
+      <span id="saveStatus" aria-live="polite"></span>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
