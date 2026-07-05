@@ -2,7 +2,7 @@
 
 ## Live Demo
 
-[View the live project](your-github-pages-link)
+[View the live project](https://mrmcgrain.github.io/NextChapter/)
 
 ## Problem
 
