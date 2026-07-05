@@ -105,3 +105,15 @@ A feature branch was created for saved project switching. The app was updated fr
 **What I learned or changed:**
 
 The saved-project switcher feature was approved for sharing, so the feature branch was pushed to GitHub after recording the prompt history update.
+
+---
+
+## 10. XSS Security Branch
+
+**Prompt:**
+
+> Looks good, let's create a feature branch for security hardening XSS and push.
+
+**What I learned or changed:**
+
+A focused security branch was created from the current main branch. The rendering code was hardened by removing user-content `innerHTML` insertion and normalizing saved browser data before rendering.
