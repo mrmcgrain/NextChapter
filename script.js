@@ -54,6 +54,8 @@ const checklist = document.querySelector("#checklist");
 const saveStatus = document.querySelector("#saveStatus");
 const projectSwitcher = document.querySelector("#projectSwitcher");
 
+const validFeatureTypes = new Set(["required", "stretch"]);
+
 document.querySelectorAll(".nav-button").forEach((button) => {
   button.addEventListener("click", () => showSection(button.dataset.section));
 });
@@ -134,14 +136,61 @@ function normalizeProjectStore(store) {
   return { activeProjectId, projects };
 }
 
-function normalizeState(rawState) {
-  const normalized = { ...structuredClone(defaultState), ...rawState };
-  normalized.features = Array.isArray(rawState.features)
-    ? rawState.features
+function normalizeState(rawState = {}) {
+  const source = rawState && typeof rawState === "object" ? rawState : {};
+  const normalized = { ...structuredClone(defaultState), ...source };
+  normalized.projectName = normalizeText(source.projectName);
+  normalized.targetUser = normalizeText(source.targetUser);
+  normalized.problem = normalizeText(source.problem);
+  normalized.value = normalizeText(source.value);
+  normalized.solution = normalizeText(source.solution);
+  normalized.mvp = normalizeText(source.mvp);
+  normalized.features = Array.isArray(source.features)
+    ? source.features.map(normalizeFeature).filter(Boolean)
     : structuredClone(defaultState.features);
-  normalized.prompts = Array.isArray(rawState.prompts) ? rawState.prompts : [];
-  normalized.checklist = { ...structuredClone(defaultState.checklist), ...(rawState.checklist || {}) };
+  normalized.prompts = Array.isArray(source.prompts)
+    ? source.prompts.map(normalizePrompt).filter(Boolean)
+    : [];
+  normalized.checklist = { ...structuredClone(defaultState.checklist), ...(source.checklist || {}) };
   return normalized;
+}
+
+function normalizeText(value) {
+  return typeof value === "string" ? value : "";
+}
+
+function normalizeFeature(feature) {
+  if (!feature || typeof feature !== "object") {
+    return null;
+  }
+
+  const text = normalizeText(feature.text).trim();
+  if (!text) {
+    return null;
+  }
+
+  return {
+    text,
+    type: validFeatureTypes.has(feature.type) ? feature.type : "stretch"
+  };
+}
+
+function normalizePrompt(promptEntry) {
+  if (!promptEntry || typeof promptEntry !== "object") {
+    return null;
+  }
+
+  const prompt = normalizeText(promptEntry.prompt).trim();
+  const learning = normalizeText(promptEntry.learning).trim();
+  if (!prompt || !learning) {
+    return null;
+  }
+
+  return {
+    category: normalizeText(promptEntry.category) || "Planning",
+    prompt,
+    learning
+  };
 }
 
 function getCurrentProject() {
@@ -339,7 +388,9 @@ function renderFeatures() {
 
   state.features.forEach((feature, index) => {
     const item = document.createElement("li");
-    item.innerHTML = `<span>${escapeHtml(feature.text)}</span>`;
+    const text = document.createElement("span");
+    text.textContent = feature.text;
+    item.append(text);
 
     const remove = document.createElement("button");
     remove.className = "remove-button";
@@ -361,11 +412,20 @@ function renderPrompts() {
 
   state.prompts.forEach((entry, index) => {
     const item = document.createElement("li");
-    item.innerHTML = `
-      <strong>${escapeHtml(entry.category)}</strong>
-      <p><b>Prompt:</b> ${escapeHtml(entry.prompt)}</p>
-      <p><b>What changed:</b> ${escapeHtml(entry.learning)}</p>
-    `;
+    const category = document.createElement("strong");
+    category.textContent = entry.category;
+
+    const prompt = document.createElement("p");
+    const promptLabel = document.createElement("b");
+    promptLabel.textContent = "Prompt:";
+    prompt.append(promptLabel, document.createTextNode(` ${entry.prompt}`));
+
+    const learning = document.createElement("p");
+    const learningLabel = document.createElement("b");
+    learningLabel.textContent = "What changed:";
+    learning.append(learningLabel, document.createTextNode(` ${entry.learning}`));
+
+    item.append(category, prompt, learning);
 
     const remove = document.createElement("button");
     remove.className = "remove-button";
@@ -503,13 +563,4 @@ async function copyReadme() {
   setTimeout(() => {
     saveStatus.textContent = "";
   }, 2200);
-}
-
-function escapeHtml(value) {
-  return value
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
 }
