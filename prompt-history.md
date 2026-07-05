@@ -69,3 +69,15 @@ The project was checked against the original submission checklist. The app inclu
 **What I learned or changed:**
 
 The prompt history was reviewed after the first build and updated to include the follow-up request itself. This keeps the documentation aligned with the actual development conversation instead of only listing sample prompts.
+
+---
+
+## 7. Deployment
+
+**Prompt:**
+
+> Please host this up on GitHub Pages, I have already changed the settings to "actions".
+
+**What I learned or changed:**
+
+A GitHub Actions workflow was added for GitHub Pages, the README live demo URL was updated, and the main branch was pushed to trigger deployment. The live site was verified after GitHub Pages finished publishing.
