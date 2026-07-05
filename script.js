@@ -28,6 +28,8 @@ const defaultState = {
   }
 };
 
+const validFeatureTypes = new Set(["required", "stretch"]);
+let hasHydrated = false;
 let projectStore = loadProjectStore();
 let state = getCurrentProject();
 
@@ -54,8 +56,6 @@ const checklist = document.querySelector("#checklist");
 const saveStatus = document.querySelector("#saveStatus");
 const projectSwitcher = document.querySelector("#projectSwitcher");
 
-const validFeatureTypes = new Set(["required", "stretch"]);
-
 document.querySelectorAll(".nav-button").forEach((button) => {
   button.addEventListener("click", () => showSection(button.dataset.section));
 });
@@ -66,6 +66,7 @@ fields.forEach((field) => {
   input.addEventListener("input", () => {
     state[field] = input.value.trim();
     updateCurrentProject();
+    persistProjectStore();
     render();
   });
 });
@@ -81,6 +82,7 @@ document.querySelector("#deleteProject").addEventListener("click", deleteProject
 document.querySelector("#resetPlan").addEventListener("click", resetPlan);
 
 render();
+hasHydrated = true;
 
 function loadProjectStore() {
   const savedCollection = localStorage.getItem(projectCollectionKey);
@@ -212,10 +214,22 @@ function updateCurrentProject() {
   project.updatedAt = new Date().toISOString();
 }
 
-function saveState() {
-  updateCurrentProject();
+function persistProjectStore() {
+  if (!hasHydrated) {
+    return;
+  }
+
   localStorage.setItem(projectCollectionKey, JSON.stringify(projectStore));
   localStorage.setItem(storageKey, JSON.stringify(state));
+}
+
+function saveState({ showStatus = true } = {}) {
+  updateCurrentProject();
+  persistProjectStore();
+  if (!showStatus) {
+    return;
+  }
+
   saveStatus.textContent = "Project saved.";
   setTimeout(() => {
     saveStatus.textContent = "";
@@ -230,6 +244,7 @@ function resetPlan() {
 
   state = structuredClone(defaultState);
   updateCurrentProject();
+  persistProjectStore();
   syncFields();
   render();
 }
@@ -329,6 +344,7 @@ function addFeature() {
 
   state.features.push({ text, type });
   updateCurrentProject();
+  persistProjectStore();
   input.value = "";
   render();
 }
@@ -336,6 +352,7 @@ function addFeature() {
 function removeFeature(index) {
   state.features.splice(index, 1);
   updateCurrentProject();
+  persistProjectStore();
   render();
 }
 
@@ -350,6 +367,7 @@ function addPrompt() {
 
   state.prompts.push({ category, prompt, learning });
   updateCurrentProject();
+  persistProjectStore();
   document.querySelector("#promptText").value = "";
   document.querySelector("#promptLearning").value = "";
   render();
@@ -358,6 +376,7 @@ function addPrompt() {
 function removePrompt(index) {
   state.prompts.splice(index, 1);
   updateCurrentProject();
+  persistProjectStore();
   render();
 }
 
@@ -448,6 +467,7 @@ function renderChecklist() {
     input.addEventListener("change", () => {
       state.checklist[key] = input.checked;
       updateCurrentProject();
+      persistProjectStore();
       renderReadiness();
     });
 
