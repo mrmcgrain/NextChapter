@@ -1,0 +1,59 @@
+# Prompt History
+
+## 1. Project Planning
+
+**Prompt:**
+
+> We are going to make an application. I am going to paste all the requirements and thought process in from my ChatGPT session.
+
+**What I learned or changed:**
+
+The pasted requirements were an assignment brief rather than a single app idea. The project became a tool that helps students complete that brief: a planner for problem definition, value, features, README content, prompt history, and submission readiness.
+
+---
+
+## 2. Smallest Demonstration of Value
+
+**Prompt:**
+
+> What is the smallest version of the project that proves the idea works?
+
+**What I learned or changed:**
+
+The smallest useful version should focus on one complete workflow. For this project, that meant a static planner that lets a user enter a project plan, generate documentation, track prompts, and check submission readiness.
+
+---
+
+## 3. Feature Development
+
+**Prompt:**
+
+> Help me create the required features for the first working version.
+
+**What I learned or changed:**
+
+The first version includes planning fields, required and future feature lists, a README generator, prompt history tracking, local saving, and a checklist. Export features were moved to future improvements to keep the project focused.
+
+---
+
+## 4. Documentation
+
+**Prompt:**
+
+> The README should explain the project clearly before reviewers inspect the code.
+
+**What I learned or changed:**
+
+The README was structured around the assignment requirements: project name, live demo, problem, value, plan, features, technologies, AI tools, and running instructions.
+
+---
+
+## 5. Verification
+
+**Prompt:**
+
+> Review this feature against my original project value and identify anything unnecessary or missing.
+
+**What I learned or changed:**
+
+The project was checked against the original submission checklist. The app includes the core value, a clear structure, documentation, prompt history, and code that can be explained during an interview.
