@@ -117,3 +117,15 @@ The saved-project switcher feature was approved for sharing, so the feature bran
 **What I learned or changed:**
 
 A focused security branch was created from the current main branch. The rendering code was hardened by removing user-content `innerHTML` insertion and normalizing saved browser data before rendering.
+
+---
+
+## 11. Saved Project Persistence Bug
+
+**Prompt:**
+
+> We don't seem to be saving the new projects in local storage, when I hit refresh I am losing the new content.
+
+**What I learned or changed:**
+
+The saved project switcher was updating the current project in memory, but most edits were only written to localStorage when the explicit Save button was clicked. Autosave persistence was added to the shared project update path so typing, checklist changes, feature changes, prompt changes, reset, and project switching survive refresh.

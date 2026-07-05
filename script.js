@@ -210,12 +210,16 @@ function updateCurrentProject() {
 
   project.state = state;
   project.updatedAt = new Date().toISOString();
+  persistProjectStore();
+}
+
+function persistProjectStore() {
+  localStorage.setItem(projectCollectionKey, JSON.stringify(projectStore));
+  localStorage.setItem(storageKey, JSON.stringify(state));
 }
 
 function saveState() {
   updateCurrentProject();
-  localStorage.setItem(projectCollectionKey, JSON.stringify(projectStore));
-  localStorage.setItem(storageKey, JSON.stringify(state));
   saveStatus.textContent = "Project saved.";
   setTimeout(() => {
     saveStatus.textContent = "";
