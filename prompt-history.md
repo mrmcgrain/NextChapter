@@ -105,3 +105,15 @@ A feature branch was created for saved project switching. The app was updated fr
 **What I learned or changed:**
 
 The saved-project switcher feature was approved for sharing, so the feature branch was pushed to GitHub after recording the prompt history update.
+
+---
+
+## 10. XSS Review
+
+**Prompt:**
+
+> Check our live code for XXS expoits please.
+
+**What I learned or changed:**
+
+The live app was reviewed for XSS risks in user-controlled rendering paths. The feature branch was hardened by replacing user-content `innerHTML` rendering with `textContent` and text nodes, plus localStorage normalization for malformed saved data.
