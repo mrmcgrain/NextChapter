@@ -153,3 +153,15 @@ The persistent storage fix was confirmed on the feature branch and pushed so the
 **What I learned or changed:**
 
 A focused branch was created for the refresh bug. Testing showed that saved-project normalization ran before `validFeatureTypes` was initialized, causing refresh to discard the saved project collection and fall back to legacy/default state. Initialization order was fixed, and app load was made read-only while real user edits still persist.
+
+---
+
+## 14. Changelog
+
+**Prompt:**
+
+> Create a change log for the app from start to finish please.
+
+**What I learned or changed:**
+
+A `CHANGELOG.md` file was created from the repository history, summarizing the project from the initial static app build through documentation, deployment, saved-project support, XSS hardening, and localStorage refresh fixes.

@@ -1,0 +1,123 @@
+# Changelog
+
+All notable changes to Project Launch Planner are documented here.
+
+## 2026-07-05 - LocalStorage Refresh Fix
+
+### Fixed
+
+- Fixed a refresh issue where saved project data could be replaced by legacy or default state.
+- Moved `validFeatureTypes` initialization before saved-project normalization so stored project collections can load safely.
+- Made initial app load read-only for localStorage writes.
+- Kept autosave behavior for real user edits, checklist changes, prompt updates, feature changes, reset actions, and project switching.
+
+### Verified
+
+- Added and ran a localStorage refresh smoke test to confirm saved projects survive reload.
+- Confirmed JavaScript syntax with `node --check script.js`.
+
+## 2026-07-05 - Security Hardening
+
+### Changed
+
+- Replaced user-content `innerHTML` rendering with `textContent` and `createTextNode`.
+- Added normalization for saved browser data before rendering.
+- Kept only safe `innerHTML = ""` usage for clearing containers before rebuilding list content.
+
+### Verified
+
+- Reviewed the live app for XSS risk in user-controlled rendering paths.
+- Confirmed the hardened branch no longer renders saved feature or prompt text through interpolated HTML.
+
+## 2026-07-05 - Saved Project Switcher
+
+### Added
+
+- Added a saved project selector near the top of the application.
+- Added controls to create a new project plan, duplicate an existing plan, and delete a saved plan.
+- Migrated from a single saved planner state to a saved-project collection in browser localStorage.
+- Preserved legacy single-project storage as the first saved project during migration.
+
+### Changed
+
+- Updated the Save button label to clarify that it saves the current project.
+- Updated README completed features to include multi-project support.
+
+### Verified
+
+- Checked desktop and mobile screenshots for the new saved-project controls.
+- Confirmed JavaScript syntax with `node --check script.js`.
+
+## 2026-07-05 - GitHub Pages Deployment
+
+### Added
+
+- Added a GitHub Actions workflow for GitHub Pages deployment.
+- Configured the repository to publish the static app from Actions.
+
+### Changed
+
+- Updated the README live demo link to `https://mrmcgrain.github.io/NextChapter/`.
+
+### Verified
+
+- Pushed `main` to GitHub.
+- Confirmed the Pages deployment workflow completed successfully.
+- Verified the live site returned `200` and contained `Project Launch Planner`.
+
+## 2026-07-05 - Documentation and Prompt History
+
+### Added
+
+- Added a complete README with the required assignment sections:
+  - Live demo
+  - Problem
+  - Value
+  - Project plan
+  - Completed features
+  - Future improvements
+  - Technologies used
+  - AI tools used
+  - Running instructions
+- Added `prompt-history.md` with selected prompts showing planning, feature development, documentation, verification, deployment, debugging, and follow-up work.
+
+### Changed
+
+- Kept prompt history updated as new requests were made during development.
+
+## 2026-07-05 - Initial Application Build
+
+### Added
+
+- Created the static Project Launch Planner application with HTML, CSS, and JavaScript.
+- Added guided project planning fields for:
+  - Project name
+  - Target user
+  - Problem
+  - Value
+  - Solution
+  - Smallest demonstration of value
+- Added required and future feature lists.
+- Added README draft generation from the user's project plan.
+- Added prompt history tracking inside the app.
+- Added a submission checklist with a readiness score.
+- Added browser localStorage support for saving planner progress.
+- Added responsive desktop and mobile layout.
+
+### Verified
+
+- Confirmed JavaScript syntax with `node --check script.js`.
+- Captured Playwright screenshots for desktop and mobile layout checks.
+
+## Current Project State
+
+- Live app: `https://mrmcgrain.github.io/NextChapter/`
+- Latest working branch: `feature/localstorage-refresh-fix`
+- Main user-facing capabilities:
+  - Plan a software project.
+  - Track required and future features.
+  - Generate a README draft.
+  - Record meaningful AI prompts.
+  - Manage multiple saved project plans.
+  - Track submission readiness.
+  - Persist saved projects across refreshes.
