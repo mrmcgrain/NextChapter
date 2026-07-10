@@ -419,3 +419,23 @@ The current feature branch was prepared for a commit and push with the delete co
 **How this shows my thinking:**
 
 This keeps the remote branch aligned with the local work and preserves the implementation history for the project submission.
+
+---
+
+## 22. Swap Delete and Duplicate Buttons
+
+**Prompt:**
+
+> UI: swap Delete and Duplicate button placement, when complete test and push.
+
+**Why this mattered:**
+
+The saved-project controls needed a clearer order so the less destructive Duplicate action appears before the destructive Delete action.
+
+**What I learned or changed:**
+
+The saved-project switcher now places Duplicate before Delete while keeping the same button behavior, delete confirmation, and project persistence logic.
+
+**How this shows my thinking:**
+
+This small UI adjustment reduces the chance of reaching for a destructive action by accident and keeps the control order aligned with user intent.
