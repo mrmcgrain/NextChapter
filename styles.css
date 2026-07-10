@@ -101,7 +101,7 @@ h1 {
 
 .project-switcher {
   display: grid;
-  grid-template-columns: minmax(220px, 1fr) auto auto auto;
+  grid-template-columns: minmax(220px, 1fr) auto auto auto auto;
   gap: 12px;
   align-items: end;
   margin: 0 clamp(20px, 6vw, 72px) 24px;

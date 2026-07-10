@@ -29,6 +29,7 @@ The intended approach is to keep the first version simple: one static HTML, CSS,
 - Submission checklist with readiness score.
 - Browser local storage for saved progress.
 - Saved project switcher for managing multiple project plans in one browser.
+- Rename control for editing a saved project's display name.
 - Responsive layout for desktop and mobile screens.
 
 ### Future Improvements
