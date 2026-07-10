@@ -319,3 +319,23 @@ The prompt history was rewritten into a fuller narrative. Each entry now explain
 **How this shows my thinking:**
 
 This final pass makes the file stronger for review because it connects prompts to decisions. It shows how the project moved from planning, to implementation, to deployment, to feature work, to security review, to debugging and verification.
+
+---
+
+## 17. Project Rename Control
+
+**Prompt:**
+
+> Let's add an edit option for the project name.
+
+**Why this mattered:**
+
+The project name could already be edited inside the Plan tab, but users managing several saved projects needed a faster way to rename the currently selected project from the project switcher.
+
+**What I learned or changed:**
+
+A Rename control was added next to the saved-project selector. It updates the current project name, syncs the Project name field, refreshes the dropdown label, updates the README draft, and persists the change to localStorage.
+
+**How this shows my thinking:**
+
+This change improves usability without adding a separate project management screen. It builds on the existing saved-project workflow and keeps the interaction simple enough to explain.

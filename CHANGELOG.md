@@ -119,5 +119,6 @@ All notable changes to Project Launch Planner are documented here.
   - Generate a README draft.
   - Record meaningful AI prompts.
   - Manage multiple saved project plans.
+  - Rename saved project plans from the project switcher.
   - Track submission readiness.
   - Persist saved projects across refreshes.

@@ -77,6 +77,7 @@ document.querySelector("#addPrompt").addEventListener("click", addPrompt);
 document.querySelector("#copyReadme").addEventListener("click", copyReadme);
 document.querySelector("#savePlan").addEventListener("click", saveState);
 document.querySelector("#newProject").addEventListener("click", createProject);
+document.querySelector("#renameProject").addEventListener("click", renameProject);
 document.querySelector("#duplicateProject").addEventListener("click", duplicateProject);
 document.querySelector("#deleteProject").addEventListener("click", deleteProject);
 document.querySelector("#resetPlan").addEventListener("click", resetPlan);
@@ -264,6 +265,24 @@ function createProject() {
   saveState();
   render();
   document.querySelector("#projectName").focus();
+}
+
+function renameProject() {
+  const currentName = state.projectName?.trim() || "";
+  const nextName = window.prompt("Project name", currentName);
+  if (nextName === null) {
+    return;
+  }
+
+  state.projectName = nextName.trim();
+  updateCurrentProject();
+  persistProjectStore();
+  syncFields();
+  render();
+  saveStatus.textContent = "Project renamed.";
+  setTimeout(() => {
+    saveStatus.textContent = "";
+  }, 2200);
 }
 
 function duplicateProject() {
