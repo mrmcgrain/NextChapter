@@ -77,7 +77,6 @@ document.querySelector("#addPrompt").addEventListener("click", addPrompt);
 document.querySelector("#copyReadme").addEventListener("click", copyReadme);
 document.querySelector("#savePlan").addEventListener("click", saveState);
 document.querySelector("#newProject").addEventListener("click", createProject);
-document.querySelector("#renameProject").addEventListener("click", renameProject);
 document.querySelector("#duplicateProject").addEventListener("click", duplicateProject);
 document.querySelector("#deleteProject").addEventListener("click", deleteProject);
 document.querySelector("#resetPlan").addEventListener("click", resetPlan);
@@ -267,24 +266,6 @@ function createProject() {
   document.querySelector("#projectName").focus();
 }
 
-function renameProject() {
-  const currentName = state.projectName?.trim() || "";
-  const nextName = window.prompt("Project name", currentName);
-  if (nextName === null) {
-    return;
-  }
-
-  state.projectName = nextName.trim();
-  updateCurrentProject();
-  persistProjectStore();
-  syncFields();
-  render();
-  saveStatus.textContent = "Project renamed.";
-  setTimeout(() => {
-    saveStatus.textContent = "";
-  }, 2200);
-}
-
 function duplicateProject() {
   updateCurrentProject();
   const duplicatedState = structuredClone(state);
@@ -312,7 +293,9 @@ function deleteProject() {
     return;
   }
 
-  const confirmed = window.confirm("Delete the current saved project?");
+  const currentProject = getCurrentProject();
+  const projectName = currentProject?.projectName?.trim() || "Untitled Project";
+  const confirmed = window.confirm(`Delete "${projectName}"? This cannot be undone.`);
   if (!confirmed) {
     return;
   }

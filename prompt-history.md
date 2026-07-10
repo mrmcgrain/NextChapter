@@ -330,12 +330,92 @@ This final pass makes the file stronger for review because it connects prompts t
 
 **Why this mattered:**
 
-The project name could already be edited inside the Plan tab, but users managing several saved projects needed a faster way to rename the currently selected project from the project switcher.
+Saved projects need a clear, consistent place for renaming. The Define the project section already contains the project name field, so it is the natural place to make that edit.
 
 **What I learned or changed:**
 
-A Rename control was added next to the saved-project selector. It updates the current project name, syncs the Project name field, refreshes the dropdown label, updates the README draft, and persists the change to localStorage.
+Editing the Project name field in Define the project renames the active saved project, refreshes the dropdown label, updates the README draft, and persists the change to localStorage. The redundant Rename switcher button was removed and its position now contains the single Delete control.
 
 **How this shows my thinking:**
 
-This change improves usability without adding a separate project management screen. It builds on the existing saved-project workflow and keeps the interaction simple enough to explain.
+This keeps project naming in the same workflow as the rest of the project definition, while keeping destructive project management actions in the saved-project switcher.
+
+---
+
+## 18. Rename Placement and Delete Control
+
+**Prompt:**
+
+> Keep the option to rename the project in the Define Project section. Replace Rename button with Delete.
+
+**Why this mattered:**
+
+The switcher had duplicate controls for deletion and placed renaming away from the related project definition field.
+
+**What I learned or changed:**
+
+The saved-project switcher now has one Delete button in the former Rename position. The Project name field remains the single rename control for the active saved project.
+
+**How this shows my thinking:**
+
+The adjustment reduces duplicate actions and makes the interface match the workflow: define a project in the form, then manage saved projects from the switcher.
+
+---
+
+## 19. Branch Naming Workflow
+
+**Prompt:**
+
+> Moving forward, create feature creates a new feature branch, bugfix creates a bugfix branch, ui creates a ui branch, etc.
+
+**Why this mattered:**
+
+The project is now using branches for focused work. A clear branch naming rule makes future changes easier to organize by intent.
+
+**What I learned or changed:**
+
+Future branch requests should map the work type to the branch prefix: feature work uses `feature/`, bug fixes use `bugfix/`, UI work uses `ui/`, and similar work types should use a matching descriptive prefix.
+
+**How this shows my thinking:**
+
+This keeps Git history readable and makes it easier to understand why a branch exists before looking at the code changes.
+
+---
+
+## 20. Delete Confirmation
+
+**Prompt:**
+
+> Feature: if Delete is clicked lets have a confirmation box before deleting the entry.
+
+**Why this mattered:**
+
+Deleting a saved project is destructive. A confirmation step helps prevent accidental loss of project planning content.
+
+**What I learned or changed:**
+
+The Delete action now confirms the specific saved project name before removing it. Canceling the confirmation leaves the saved project list unchanged.
+
+**How this shows my thinking:**
+
+This adds a small safety check at the exact point of risk, without changing the saved-project workflow or requiring extra setup.
+
+---
+
+## 21. Push Delete Confirmation Work
+
+**Prompt:**
+
+> Let's push.
+
+**Why this mattered:**
+
+The delete confirmation feature needed to be saved in Git and published to the remote repository so it could be reviewed or merged later.
+
+**What I learned or changed:**
+
+The current feature branch was prepared for a commit and push with the delete confirmation, related documentation, and prompt-history updates included together.
+
+**How this shows my thinking:**
+
+This keeps the remote branch aligned with the local work and preserves the implementation history for the project submission.

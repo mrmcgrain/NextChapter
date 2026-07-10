@@ -2,6 +2,17 @@
 
 All notable changes to Project Launch Planner are documented here.
 
+## 2026-07-09 - Delete Confirmation
+
+### Changed
+
+- Added a project-specific confirmation before deleting a saved project.
+- Kept the existing guard that prevents deleting the final remaining project.
+
+### Verified
+
+- Confirmed JavaScript syntax with `node --check script.js`.
+
 ## 2026-07-05 - LocalStorage Refresh Fix
 
 ### Fixed
@@ -118,7 +129,7 @@ All notable changes to Project Launch Planner are documented here.
   - Track required and future features.
   - Generate a README draft.
   - Record meaningful AI prompts.
-  - Manage multiple saved project plans.
-  - Rename saved project plans from the project switcher.
+- Manage multiple saved project plans.
+- Rename saved project plans from the Define the project section.
   - Track submission readiness.
   - Persist saved projects across refreshes.
