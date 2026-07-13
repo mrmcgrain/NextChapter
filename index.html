@@ -23,6 +23,7 @@
       </div>
     </header>
 
+    <!-- Saved-project controls let users switch, create, duplicate, and safely delete separate project plans. -->
     <section class="project-switcher" aria-label="Saved projects">
       <label>
         Saved project
@@ -43,6 +44,7 @@
       </nav>
 
       <section class="workspace">
+        <!-- Project definition fields capture the core planning answers used throughout the app. -->
         <section class="view active" id="plan" aria-labelledby="plan-title">
           <div class="section-heading">
             <p class="eyebrow">Step 1</p>
@@ -77,6 +79,7 @@
           </form>
         </section>
 
+        <!-- Feature tracking separates required MVP work from future improvements for the generated README. -->
         <section class="view" id="features" aria-labelledby="features-title">
           <div class="section-heading">
             <p class="eyebrow">Step 2</p>
@@ -110,6 +113,7 @@
           </div>
         </section>
 
+        <!-- README generation turns the current planner state into a copyable project story. -->
         <section class="view" id="readme" aria-labelledby="readme-title">
           <div class="section-heading">
             <p class="eyebrow">Step 3</p>
@@ -121,6 +125,7 @@
           <pre id="readmeOutput" class="output-box"></pre>
         </section>
 
+        <!-- Prompt tracking records meaningful AI collaboration evidence for the assignment. -->
         <section class="view" id="prompts" aria-labelledby="prompts-title">
           <div class="section-heading">
             <p class="eyebrow">Step 4</p>
@@ -152,6 +157,7 @@
           <ul id="promptList" class="timeline"></ul>
         </section>
 
+        <!-- Submission readiness combines a checklist, score, and practice questions for final review. -->
         <section class="view" id="submit" aria-labelledby="submit-title">
           <div class="section-heading">
             <p class="eyebrow">Step 5</p>
@@ -175,6 +181,7 @@
       </section>
     </main>
 
+    <!-- Save and clear actions persist or reset the active project plan in browser storage. -->
     <footer class="app-footer">
       <button id="savePlan" class="secondary-button" type="button">Save Current Project</button>
       <button id="resetPlan" class="danger-button" type="button">Clear Planner</button>

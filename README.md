@@ -20,8 +20,6 @@ The intended approach is to keep the first version simple: one static HTML, CSS,
 
 ## Features
 
-### Completed
-
 - Guided project planning form for problem, user, value, solution, and MVP.
 - Required and future feature tracker.
 - README draft generator based on the user's project plan.
