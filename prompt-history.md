@@ -559,3 +559,83 @@ The current UI branch was prepared for a commit and push containing the code com
 **How this shows my thinking:**
 
 This keeps the remote branch current with the local project documentation and makes the latest review materials available on GitHub.
+
+---
+
+## 29. Prompt Why This Mattered Field
+
+**Prompt:**
+
+> Feature: why this mattered section. On the prompts page add a section between prompt used and what changed for "Why this mattered".
+
+**Why this mattered:**
+
+Prompt history is stronger when it explains not only what was asked and what changed, but also why that prompt was important to the project.
+
+**What I learned or changed:**
+
+The Prompts page now includes a `Why this mattered` textarea between `Prompt used` and `What changed`. Saved prompt entries persist this new field and render it in the prompt timeline.
+
+**How this shows my thinking:**
+
+This makes the app's built-in prompt tracker match the narrative structure already used in `prompt-history.md`, helping users capture better AI collaboration evidence as they work.
+
+---
+
+## 30. Default Prompt History State
+
+**Prompt:**
+
+> Feature: nice, now as a default state for the app, on any browser, take our prompt history and make that the default state.
+
+**Why this mattered:**
+
+A new browser previously opened with an empty prompt tracker. The project requirement is easier to demonstrate if the app starts with the actual prompt history already loaded.
+
+**What I learned or changed:**
+
+The app's default prompt state now seeds the prompt tracker from the project prompt history, including prompt text, why it mattered, and what changed.
+
+**How this shows my thinking:**
+
+This turns the documentation work into part of the app experience, so the live planner immediately shows the AI collaboration story instead of requiring a user to re-enter it.
+
+---
+
+## 31. Default Plan State
+
+**Prompt:**
+
+> Update the default state for Plan from the README and default saved project as "Project Launch Planner".
+
+**Why this mattered:**
+
+A fresh browser should demonstrate the actual project immediately, not start with a blank plan.
+
+**What I learned or changed:**
+
+The default Plan fields now use the Project Launch Planner details from the README, and the default saved project name is `Project Launch Planner`.
+
+**How this shows my thinking:**
+
+This aligns the live app, README, and default browser state so reviewers see the same project story across the application and documentation.
+
+---
+
+## 32. Push Default State Updates
+
+**Prompt:**
+
+> Looks great, make sure we update the prompt history, changelog and go ahead and push the new changes please.
+
+**Why this mattered:**
+
+The default prompt-history and Plan state changes needed to be documented and published to the remote feature branch.
+
+**What I learned or changed:**
+
+The changelog already included the default-state updates, and the prompt history was updated with this push request before committing and pushing the branch.
+
+**How this shows my thinking:**
+
+This keeps the repository history, changelog, and prompt history aligned with the latest application behavior.

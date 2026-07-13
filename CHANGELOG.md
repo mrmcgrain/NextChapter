@@ -2,6 +2,29 @@
 
 All notable changes to Project Launch Planner are documented here.
 
+## 2026-07-13 - Default Prompt History State
+
+### Added
+
+- Seeded the default prompt tracker with the project's prompt history for fresh browsers.
+- Added the prompt text, why it mattered, and what changed for each seeded prompt entry.
+- Seeded the default Plan section with the Project Launch Planner details from the README.
+
+### Verified
+
+- Confirmed JavaScript syntax with `node --check script.js`.
+
+## 2026-07-13 - Prompt Why This Mattered Field
+
+### Added
+
+- Added a `Why this mattered` field between `Prompt used` and `What changed` on the Prompts page.
+- Saved and rendered the new prompt context with each prompt-history entry.
+
+### Verified
+
+- Confirmed JavaScript syntax with `node --check script.js`.
+
 ## 2026-07-09 - Delete Confirmation
 
 ### Changed

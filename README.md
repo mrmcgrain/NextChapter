@@ -23,7 +23,9 @@ The intended approach is to keep the first version simple: one static HTML, CSS,
 - Guided project planning form for problem, user, value, solution, and MVP.
 - Required and future feature tracker.
 - README draft generator based on the user's project plan.
-- Prompt history tracker for AI collaboration evidence.
+- Prompt history tracker for AI collaboration evidence, including why each prompt mattered.
+- Fresh browsers start with this project's prompt history as the default prompt tracker state.
+- Fresh browsers start with the Project Launch Planner plan filled in from this README.
 - Submission checklist with readiness score.
 - Browser local storage for saved progress.
 - Saved project switcher for managing multiple project plans in one browser.
