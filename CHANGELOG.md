@@ -2,6 +2,18 @@
 
 All notable changes to Project Launch Planner are documented here.
 
+## 2026-07-13 - Default Prompt LocalStorage Fix
+
+### Fixed
+
+- Fixed saved default Project Launch Planner states with empty prompt arrays so they refill from the seeded prompt history.
+- Preserved intentionally blank projects created with the New button.
+
+### Verified
+
+- Confirmed JavaScript syntax with `node --check script.js`.
+- Ran localStorage regression tests for refresh persistence, blank project migration, and default prompt seeding.
+
 ## 2026-07-13 - New Project Blank State Fix
 
 ### Fixed
