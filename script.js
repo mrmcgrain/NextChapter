@@ -7,7 +7,7 @@ const defaultState = structuredClone(window.nextChapterSeed.project.state);
 const validFeatureTypes = new Set(["required", "stretch"]); // Built-in API: creates the allowed feature-type lookup.
 let hasHydrated = false, shouldPersistHydratedStore = false;
 let projectStore = loadProjectStore(); // Defined line 66: initializes saved projects from browser storage.
-let state = getCurrentProject(); // Defined line 218: loads the active project state into memory.
+let state = getCurrentProject(); // Defined line 227: loads the active project state into memory.
 
 const fields = ["projectName", "targetUser", "problem", "value", "solution", "mvp"];
 const checklistItems = [
@@ -34,7 +34,7 @@ const projectSwitcher = document.querySelector("#projectSwitcher"); // Browser A
 
 // Section navigation switches between the five planner views without leaving the page.
 document.querySelectorAll(".nav-button").forEach((button) => { // Browser API: attaches setup logic to every sidebar navigation button.
-  button.addEventListener("click", () => showSection(button.dataset.section)); // Defined line 355: calls showSection when a nav button is clicked.
+  button.addEventListener("click", () => showSection(button.dataset.section)); // Defined line 364: calls showSection when a nav button is clicked.
 });
 
 // Project definition inputs autosave into the active project and update generated outputs.
@@ -43,24 +43,24 @@ fields.forEach((field) => { // Built-in API: attaches input handlers to every pl
   input.value = state[field];
   input.addEventListener("input", () => { // Browser API: reacts when the user edits a project definition field.
     state[field] = input.value.trim(); // Built-in API: trims the typed field value before saving it.
-    updateCurrentProject(); // Defined line 227: syncs the edited field into the active project record.
-    persistProjectStore(); // Defined line 238: saves the edited project to localStorage.
-    render(); // Defined line 418: refreshes generated output after the field change.
+    updateCurrentProject(); // Defined line 236: syncs the edited field into the active project record.
+    persistProjectStore(); // Defined line 247: saves the edited project to localStorage.
+    render(); // Defined line 427: refreshes generated output after the field change.
   });
 });
 
-projectSwitcher.addEventListener("change", switchProject); // Defined line 339: calls switchProject when a saved project is selected.
-document.querySelector("#addFeature").addEventListener("click", addFeature); // Defined line 366: calls addFeature from the Add feature button.
-document.querySelector("#addPrompt").addEventListener("click", addPrompt); // Defined line 391: calls addPrompt from the Save Prompt button.
-document.querySelector("#copyReadme").addEventListener("click", copyReadme); // Defined line 627: calls copyReadme from the copy button.
-document.querySelector("#savePlan").addEventListener("click", saveState); // Defined line 248: calls saveState from the footer save button.
-document.querySelector("#newProject").addEventListener("click", createProject); // Defined line 276: calls createProject from the New button.
-document.querySelector("#duplicateProject").addEventListener("click", duplicateProject); // Defined line 294: calls duplicateProject from the Duplicate button.
-document.querySelector("#deleteProject").addEventListener("click", deleteProject); // Defined line 316: calls deleteProject from the Delete button.
-document.querySelector("#resetPlan").addEventListener("click", resetPlan); // Defined line 262: calls resetPlan from the Clear Planner button.
+projectSwitcher.addEventListener("change", switchProject); // Defined line 348: calls switchProject when a saved project is selected.
+document.querySelector("#addFeature").addEventListener("click", addFeature); // Defined line 375: calls addFeature from the Add feature button.
+document.querySelector("#addPrompt").addEventListener("click", addPrompt); // Defined line 400: calls addPrompt from the Save Prompt button.
+document.querySelector("#copyReadme").addEventListener("click", copyReadme); // Defined line 636: calls copyReadme from the copy button.
+document.querySelector("#savePlan").addEventListener("click", saveState); // Defined line 257: calls saveState from the footer save button.
+document.querySelector("#newProject").addEventListener("click", createProject); // Defined line 285: calls createProject from the New button.
+document.querySelector("#duplicateProject").addEventListener("click", duplicateProject); // Defined line 303: calls duplicateProject from the Duplicate button.
+document.querySelector("#deleteProject").addEventListener("click", deleteProject); // Defined line 325: calls deleteProject from the Delete button.
+document.querySelector("#resetPlan").addEventListener("click", resetPlan); // Defined line 271: calls resetPlan from the Clear Planner button.
 
-render(); // Defined line 418: draws the initial UI from loaded state.
-hasHydrated = true; if (shouldPersistHydratedStore) persistProjectStore(); // Defined line 238: saves any repaired default prompt history back to localStorage after initial hydration.
+render(); // Defined line 427: draws the initial UI from loaded state.
+hasHydrated = true; if (shouldPersistHydratedStore) persistProjectStore(); // Defined line 247: saves any repaired default prompt history back to localStorage after initial hydration.
 
 // Saved-project storage loads the multi-project collection and falls back to older single-project data.
 function loadProjectStore() { // Line 66: loads saved project data from localStorage.
@@ -85,14 +85,14 @@ function createStoreFromLegacyState() { // Line 82: migrates older single-projec
   try {
     const savedLegacyState = localStorage.getItem(storageKey); // Browser API: reads older single-project localStorage data.
     if (savedLegacyState) {
-      legacyState = normalizeState(JSON.parse(savedLegacyState)); // Defined line 120: parses and validates the older saved state.
+      legacyState = normalizeState(JSON.parse(savedLegacyState)); // Defined line 129: parses and validates the older saved state.
     }
   } catch {
     localStorage.removeItem(storageKey); // Browser API: removes invalid legacy data so migration can continue.
   }
 
   const project = {
-    id: createProjectId(), // Defined line 532: assigns a unique ID to the migrated project.
+    id: createProjectId(), // Defined line 541: assigns a unique ID to the migrated project.
     updatedAt: new Date().toISOString(), // Built-in API: stamps the migrated project with the current save time.
     state: legacyState
   };
@@ -105,10 +105,19 @@ function createStoreFromLegacyState() { // Line 82: migrates older single-projec
 
 function normalizeProjectStore(store) { // Line 106: repairs saved project collection data before the app uses it.
   const projects = store.projects.map((project) => ({ // Built-in API: normalizes every saved project record.
-    id: project.id || createProjectId(), // Defined line 532: fills in missing project IDs.
+    id: project.id || createProjectId(), // Defined line 541: fills in missing project IDs.
     updatedAt: project.updatedAt || new Date().toISOString(), // Built-in API: fills in missing update timestamps.
-    state: normalizeState(project.state || {}) // Defined line 120: validates each saved project's planner state.
+    state: normalizeState(project.state || {}) // Defined line 129: validates each saved project's planner state.
   }));
+  const hasSeedProject = projects.some((project) => project.state.projectName === defaultState.projectName); // Built-in API: checks whether the demo seed project already exists.
+  if (!hasSeedProject) {
+    projects.push({
+      id: window.nextChapterSeed.project.id || createProjectId(), // Defined line 541: reuses the stable seed ID when available.
+      updatedAt: new Date().toISOString(), // Built-in API: timestamps the appended seed project.
+      state: structuredClone(defaultState)
+    });
+    shouldPersistHydratedStore = true;
+  }
 
   const activeProjectId = projects.some((project) => project.id === store.activeProjectId) // Built-in API: checks whether the saved active project still exists.
     ? store.activeProjectId
@@ -117,24 +126,24 @@ function normalizeProjectStore(store) { // Line 106: repairs saved project colle
   return { activeProjectId, projects };
 }
 
-function normalizeState(rawState = {}) { // Line 120: fills missing planner fields and validates saved state shape.
+function normalizeState(rawState = {}) { // Line 129: fills missing planner fields and validates saved state shape.
   const source = rawState && typeof rawState === "object" ? rawState : {};
   if (isEmptySavedState(source)) {
     return structuredClone(defaultState);
   }
 
   const normalized = { ...structuredClone(defaultState), ...source }; // Built-in API: starts with default state before applying saved values.
-  normalized.projectName = normalizeText(source.projectName); // Defined line 178: sanitizes saved project name text.
-  normalized.targetUser = normalizeText(source.targetUser); // Defined line 178: sanitizes saved target user text.
-  normalized.problem = normalizeText(source.problem); // Defined line 178: sanitizes saved problem text.
-  normalized.value = normalizeText(source.value); // Defined line 178: sanitizes saved value text.
-  normalized.solution = normalizeText(source.solution); // Defined line 178: sanitizes saved solution text.
-  normalized.mvp = normalizeText(source.mvp); // Defined line 178: sanitizes saved MVP text.
+  normalized.projectName = normalizeText(source.projectName); // Defined line 187: sanitizes saved project name text.
+  normalized.targetUser = normalizeText(source.targetUser); // Defined line 187: sanitizes saved target user text.
+  normalized.problem = normalizeText(source.problem); // Defined line 187: sanitizes saved problem text.
+  normalized.value = normalizeText(source.value); // Defined line 187: sanitizes saved value text.
+  normalized.solution = normalizeText(source.solution); // Defined line 187: sanitizes saved solution text.
+  normalized.mvp = normalizeText(source.mvp); // Defined line 187: sanitizes saved MVP text.
   normalized.features = Array.isArray(source.features) // Built-in API: checks that saved features are an array before using them.
-    ? source.features.map(normalizeFeature).filter(Boolean) // Defined line 182: validates feature entries, then filters invalid results.
+    ? source.features.map(normalizeFeature).filter(Boolean) // Defined line 191: validates feature entries, then filters invalid results.
     : structuredClone(defaultState.features); // Built-in API: restores default starter features when saved data is invalid.
   normalized.prompts = Array.isArray(source.prompts) // Built-in API: checks that saved prompts are an array before using them.
-    ? source.prompts.map(normalizePrompt).filter(Boolean) // Defined line 198: validates prompt entries, then filters invalid results.
+    ? source.prompts.map(normalizePrompt).filter(Boolean) // Defined line 207: validates prompt entries, then filters invalid results.
     : [];
   if (!source.isBlankProject && normalized.projectName === defaultState.projectName && normalized.prompts.length === 0) {
     normalized.prompts = structuredClone(defaultState.prompts); shouldPersistHydratedStore = true; // Built-in API: restores seeded prompt history from seed.js and marks the repaired state for persistence.
@@ -143,7 +152,7 @@ function normalizeState(rawState = {}) { // Line 120: fills missing planner fiel
   return normalized;
 }
 
-function isEmptySavedState(source) { // Line 146: detects blank saved data that should receive the seeded default.
+function isEmptySavedState(source) { // Line 155: detects blank saved data that should receive the seeded default.
   const textFieldsEmpty = ["projectName", "targetUser", "problem", "value", "solution", "mvp"]
     .every((field) => !normalizeText(source[field]).trim());
   const featureEntries = Array.isArray(source.features) ? source.features : [];
@@ -159,7 +168,7 @@ function isEmptySavedState(source) { // Line 146: detects blank saved data that 
     && checklistValues.every((value) => !value);
 }
 
-function createBlankProjectState() { // Line 162: returns an empty planner state for new saved projects.
+function createBlankProjectState() { // Line 171: returns an empty planner state for new saved projects.
   return {
     ...structuredClone(defaultState),
     projectName: "",
@@ -175,16 +184,16 @@ function createBlankProjectState() { // Line 162: returns an empty planner state
 }
 
 // User-controlled saved data is normalized before rendering so bad stored shapes cannot break the UI.
-function normalizeText(value) { // Line 178: converts non-string values into safe empty text.
+function normalizeText(value) { // Line 187: converts non-string values into safe empty text.
   return typeof value === "string" ? value : "";
 }
 
-function normalizeFeature(feature) { // Line 182: validates a saved feature entry and its required/future type.
+function normalizeFeature(feature) { // Line 191: validates a saved feature entry and its required/future type.
   if (!feature || typeof feature !== "object") {
     return null;
   }
 
-  const text = normalizeText(feature.text).trim(); // Defined line 178: sanitizes feature text, then trims it with a built-in string method.
+  const text = normalizeText(feature.text).trim(); // Defined line 187: sanitizes feature text, then trims it with a built-in string method.
   if (!text) {
     return null;
   }
@@ -195,37 +204,37 @@ function normalizeFeature(feature) { // Line 182: validates a saved feature entr
   };
 }
 
-function normalizePrompt(promptEntry) { // Line 198: validates a saved prompt-history entry.
+function normalizePrompt(promptEntry) { // Line 207: validates a saved prompt-history entry.
   if (!promptEntry || typeof promptEntry !== "object") {
     return null;
   }
 
-  const prompt = normalizeText(promptEntry.prompt).trim(); // Defined line 178: sanitizes prompt text, then trims it with a built-in string method.
-  const why = normalizeText(promptEntry.why).trim(); // Defined line 178: sanitizes why-this-mattered text, then trims it with a built-in string method.
-  const learning = normalizeText(promptEntry.learning).trim(); // Defined line 178: sanitizes learning text, then trims it with a built-in string method.
+  const prompt = normalizeText(promptEntry.prompt).trim(); // Defined line 187: sanitizes prompt text, then trims it with a built-in string method.
+  const why = normalizeText(promptEntry.why).trim(); // Defined line 187: sanitizes why-this-mattered text, then trims it with a built-in string method.
+  const learning = normalizeText(promptEntry.learning).trim(); // Defined line 187: sanitizes learning text, then trims it with a built-in string method.
   if (!prompt || !learning) {
     return null;
   }
 
   return {
-    category: normalizeText(promptEntry.category) || "Planning", // Defined line 178: sanitizes prompt category with a Planning fallback.
+    category: normalizeText(promptEntry.category) || "Planning", // Defined line 187: sanitizes prompt category with a Planning fallback.
     prompt,
     why,
     learning
   };
 }
 
-function getCurrentProject() { // Line 218: returns the state for the active saved project.
+function getCurrentProject() { // Line 227: returns the state for the active saved project.
   const project = projectStore.projects.find((item) => item.id === projectStore.activeProjectId); // Built-in API: finds the active project state record.
   return project?.state || structuredClone(defaultState); // Built-in API: falls back to a blank default state if the active project is missing.
 }
 
-function getCurrentProjectRecord() { // Line 223: returns the full active project record for metadata updates.
+function getCurrentProjectRecord() { // Line 232: returns the full active project record for metadata updates.
   return projectStore.projects.find((project) => project.id === projectStore.activeProjectId); // Built-in API: finds the active project metadata record.
 }
 
-function updateCurrentProject() { // Line 227: writes the current planner state back to the active project record.
-  const project = getCurrentProjectRecord(); // Defined line 223: retrieves the active project record before updating it.
+function updateCurrentProject() { // Line 236: writes the current planner state back to the active project record.
+  const project = getCurrentProjectRecord(); // Defined line 232: retrieves the active project record before updating it.
   if (!project) {
     return;
   }
@@ -235,7 +244,7 @@ function updateCurrentProject() { // Line 227: writes the current planner state 
 }
 
 // Persistence is disabled during first hydration so opening the app cannot overwrite localStorage.
-function persistProjectStore() { // Line 238: saves the project collection and legacy state copy to localStorage.
+function persistProjectStore() { // Line 247: saves the project collection and legacy state copy to localStorage.
   if (!hasHydrated) {
     return;
   }
@@ -245,9 +254,9 @@ function persistProjectStore() { // Line 238: saves the project collection and l
 }
 
 // Manual save keeps the active project and shows short feedback in the footer.
-function saveState({ showStatus = true } = {}) { // Line 248: saves the active project and optionally shows footer feedback.
-  updateCurrentProject(); // Defined line 227: writes current state into the active project before saving.
-  persistProjectStore(); // Defined line 238: persists the active project and project collection.
+function saveState({ showStatus = true } = {}) { // Line 257: saves the active project and optionally shows footer feedback.
+  updateCurrentProject(); // Defined line 236: writes current state into the active project before saving.
+  persistProjectStore(); // Defined line 247: persists the active project and project collection.
   if (!showStatus) {
     return;
   }
@@ -259,47 +268,47 @@ function saveState({ showStatus = true } = {}) { // Line 248: saves the active p
 }
 
 // Clear Planner resets only the active project after confirmation.
-function resetPlan() { // Line 262: clears the active planner after user confirmation.
+function resetPlan() { // Line 271: clears the active planner after user confirmation.
   const confirmed = window.confirm("Clear this project's planner fields?"); // Browser API: asks before clearing the active planner.
   if (!confirmed) {
     return;
   }
 
   state = structuredClone(defaultState); // Built-in API: replaces the active state with a blank default copy.
-  updateCurrentProject(); // Defined line 227: stores the cleared state in the active project record.
-  persistProjectStore(); // Defined line 238: saves the cleared active project.
-  syncFields(); // Defined line 348: updates the form fields after clearing.
-  render(); // Defined line 418: refreshes the UI after clearing.
+  updateCurrentProject(); // Defined line 236: stores the cleared state in the active project record.
+  persistProjectStore(); // Defined line 247: saves the cleared active project.
+  syncFields(); // Defined line 357: updates the form fields after clearing.
+  render(); // Defined line 427: refreshes the UI after clearing.
 }
 
 // New Project creates a blank saved project and makes it the active planner.
-function createProject() { // Line 276: creates a blank saved project and switches to it.
-  updateCurrentProject(); // Defined line 227: saves edits to the current project before creating another.
+function createProject() { // Line 285: creates a blank saved project and switches to it.
+  updateCurrentProject(); // Defined line 236: saves edits to the current project before creating another.
   const project = {
-    id: createProjectId(), // Defined line 532: gives the new project a unique ID.
+    id: createProjectId(), // Defined line 541: gives the new project a unique ID.
     updatedAt: new Date().toISOString(), // Built-in API: timestamps the new blank project.
-    state: createBlankProjectState() // Defined line 162: starts the new project from an empty planner state.
+    state: createBlankProjectState() // Defined line 171: starts the new project from an empty planner state.
   };
 
   projectStore.projects.push(project); // Built-in API: adds the new blank project to the collection.
   projectStore.activeProjectId = project.id;
   state = project.state;
-  syncFields(); // Defined line 348: clears the visible form fields for the new project.
-  saveState(); // Defined line 248: persists the new active project.
-  render(); // Defined line 418: refreshes the UI for the new project.
+  syncFields(); // Defined line 357: clears the visible form fields for the new project.
+  saveState(); // Defined line 257: persists the new active project.
+  render(); // Defined line 427: refreshes the UI for the new project.
   document.querySelector("#projectName").focus(); // Browser API: moves focus to the project name input.
 }
 
 // Duplicate Project copies the active planner so users can branch an idea without retyping it.
-function duplicateProject() { // Line 294: copies the active project into a new saved project.
-  updateCurrentProject(); // Defined line 227: saves the current project before duplicating it.
+function duplicateProject() { // Line 303: copies the active project into a new saved project.
+  updateCurrentProject(); // Defined line 236: saves the current project before duplicating it.
   const duplicatedState = structuredClone(state); // Built-in API: creates an independent copy of the active project state.
   duplicatedState.projectName = duplicatedState.projectName
     ? `${duplicatedState.projectName} Copy`
     : "Untitled Project Copy";
 
   const project = {
-    id: createProjectId(), // Defined line 532: gives the duplicated project a unique ID.
+    id: createProjectId(), // Defined line 541: gives the duplicated project a unique ID.
     updatedAt: new Date().toISOString(), // Built-in API: timestamps the duplicated project.
     state: duplicatedState
   };
@@ -307,19 +316,19 @@ function duplicateProject() { // Line 294: copies the active project into a new 
   projectStore.projects.push(project); // Built-in API: adds the duplicated project to the collection.
   projectStore.activeProjectId = project.id;
   state = project.state;
-  syncFields(); // Defined line 348: updates the form fields for the duplicated project.
-  saveState(); // Defined line 248: persists the duplicated project.
-  render(); // Defined line 418: refreshes the UI for the duplicated project.
+  syncFields(); // Defined line 357: updates the form fields for the duplicated project.
+  saveState(); // Defined line 257: persists the duplicated project.
+  render(); // Defined line 427: refreshes the UI for the duplicated project.
 }
 
 // Delete Project removes the active saved project only after a project-specific confirmation.
-function deleteProject() { // Line 316: deletes the active saved project after confirmation.
+function deleteProject() { // Line 325: deletes the active saved project after confirmation.
   if (projectStore.projects.length === 1) {
     window.alert("At least one project must remain."); // Browser API: warns that the final project cannot be deleted.
     return;
   }
 
-  const currentProject = getCurrentProject(); // Defined line 218: reads the active project to name it in the confirmation.
+  const currentProject = getCurrentProject(); // Defined line 227: reads the active project to name it in the confirmation.
   const projectName = currentProject?.projectName?.trim() || "Untitled Project"; // Built-in API: trims the active project name for the confirmation message.
   const confirmed = window.confirm(`Delete "${projectName}"? This cannot be undone.`); // Browser API: asks before deleting the active saved project.
   if (!confirmed) {
@@ -329,30 +338,30 @@ function deleteProject() { // Line 316: deletes the active saved project after c
   const currentIndex = projectStore.projects.findIndex((project) => project.id === projectStore.activeProjectId); // Built-in API: finds the active project's array position before deleting.
   projectStore.projects.splice(currentIndex, 1); // Built-in API: removes the active project from the collection.
   projectStore.activeProjectId = projectStore.projects[Math.max(0, currentIndex - 1)].id; // Built-in API: selects the nearest remaining project.
-  state = getCurrentProject(); // Defined line 218: loads the next available project after deletion.
-  syncFields(); // Defined line 348: updates form fields for the new active project.
-  saveState(); // Defined line 248: persists the new active project selection.
-  render(); // Defined line 418: refreshes the UI after deletion.
+  state = getCurrentProject(); // Defined line 227: loads the next available project after deletion.
+  syncFields(); // Defined line 357: updates form fields for the new active project.
+  saveState(); // Defined line 257: persists the new active project selection.
+  render(); // Defined line 427: refreshes the UI after deletion.
 }
 
 // The project switcher saves the current project before loading another saved project.
-function switchProject() { // Line 339: switches the app to another saved project.
-  updateCurrentProject(); // Defined line 227: saves the current project before switching away.
+function switchProject() { // Line 348: switches the app to another saved project.
+  updateCurrentProject(); // Defined line 236: saves the current project before switching away.
   projectStore.activeProjectId = projectSwitcher.value;
-  state = getCurrentProject(); // Defined line 218: loads the selected saved project state.
-  syncFields(); // Defined line 348: updates the form with the selected project.
-  saveState(); // Defined line 248: persists the selected project as active.
-  render(); // Defined line 418: refreshes the UI after switching projects.
+  state = getCurrentProject(); // Defined line 227: loads the selected saved project state.
+  syncFields(); // Defined line 357: updates the form with the selected project.
+  saveState(); // Defined line 257: persists the selected project as active.
+  render(); // Defined line 427: refreshes the UI after switching projects.
 }
 
-function syncFields() { // Line 348: syncs form inputs with the current project state.
+function syncFields() { // Line 357: syncs form inputs with the current project state.
   fields.forEach((field) => { // Built-in API: updates each planner input from state.
     document.querySelector(`#${field}`).value = state[field] || ""; // Browser API: writes current state values into form inputs.
   });
 }
 
 // View switching updates the sidebar state and reveals the matching workspace section.
-function showSection(sectionId) { // Line 355: displays the requested planner section and updates nav state.
+function showSection(sectionId) { // Line 364: displays the requested planner section and updates nav state.
   document.querySelectorAll(".nav-button").forEach((button) => { // Browser API: loops over nav buttons to update active styling.
     button.classList.toggle("active", button.dataset.section === sectionId); // Browser API: toggles active styling for each nav button.
   });
@@ -363,7 +372,7 @@ function showSection(sectionId) { // Line 355: displays the requested planner se
 }
 
 // Feature tracking stores required and future items separately for planning and README output.
-function addFeature() { // Line 366: adds a required or future feature to the active project.
+function addFeature() { // Line 375: adds a required or future feature to the active project.
   const input = document.querySelector("#featureText"); // Browser API: finds the feature text input.
   const type = document.querySelector("#featureType").value; // Browser API: reads the selected feature type.
   const text = input.value.trim(); // Built-in API: trims the entered feature text.
@@ -374,21 +383,21 @@ function addFeature() { // Line 366: adds a required or future feature to the ac
   }
 
   state.features.push({ text, type }); // Built-in API: appends the new feature to project state.
-  updateCurrentProject(); // Defined line 227: stores the new feature in the active project record.
-  persistProjectStore(); // Defined line 238: saves the updated feature list.
+  updateCurrentProject(); // Defined line 236: stores the new feature in the active project record.
+  persistProjectStore(); // Defined line 247: saves the updated feature list.
   input.value = "";
-  render(); // Defined line 418: refreshes the feature lists and README output.
+  render(); // Defined line 427: refreshes the feature lists and README output.
 }
 
-function removeFeature(index) { // Line 383: removes a feature from the active project by list index.
+function removeFeature(index) { // Line 392: removes a feature from the active project by list index.
   state.features.splice(index, 1); // Built-in API: removes the selected feature from project state.
-  updateCurrentProject(); // Defined line 227: stores the feature removal in the active project record.
-  persistProjectStore(); // Defined line 238: saves the updated feature list.
-  render(); // Defined line 418: refreshes the feature lists and README output.
+  updateCurrentProject(); // Defined line 236: stores the feature removal in the active project record.
+  persistProjectStore(); // Defined line 247: saves the updated feature list.
+  render(); // Defined line 427: refreshes the feature lists and README output.
 }
 
 // Prompt tracking captures the AI prompt, category, and lesson learned for project evidence.
-function addPrompt() { // Line 391: saves an AI prompt and learning note to the active project.
+function addPrompt() { // Line 400: saves an AI prompt and learning note to the active project.
   const category = document.querySelector("#promptCategory").value; // Browser API: reads the selected prompt category.
   const prompt = document.querySelector("#promptText").value.trim(); // Built-in API: trims the saved prompt text.
   const why = document.querySelector("#promptWhy").value.trim(); // Built-in API: trims the why-this-mattered note.
@@ -399,46 +408,46 @@ function addPrompt() { // Line 391: saves an AI prompt and learning note to the 
   }
 
   state.prompts.push({ category, prompt, why, learning }); // Built-in API: appends the prompt entry to project state.
-  updateCurrentProject(); // Defined line 227: stores the prompt entry in the active project record.
-  persistProjectStore(); // Defined line 238: saves the updated prompt history.
+  updateCurrentProject(); // Defined line 236: stores the prompt entry in the active project record.
+  persistProjectStore(); // Defined line 247: saves the updated prompt history.
   document.querySelector("#promptText").value = ""; // Browser API: clears the prompt input.
   document.querySelector("#promptWhy").value = ""; // Browser API: clears the why-this-mattered input.
   document.querySelector("#promptLearning").value = ""; // Browser API: clears the learning input.
-  render(); // Defined line 418: refreshes the prompt timeline.
+  render(); // Defined line 427: refreshes the prompt timeline.
 }
 
-function removePrompt(index) { // Line 410: removes a saved prompt entry by list index.
+function removePrompt(index) { // Line 419: removes a saved prompt entry by list index.
   state.prompts.splice(index, 1); // Built-in API: removes the selected prompt from project state.
-  updateCurrentProject(); // Defined line 227: stores the prompt removal in the active project record.
-  persistProjectStore(); // Defined line 238: saves the updated prompt history.
-  render(); // Defined line 418: refreshes the prompt timeline.
+  updateCurrentProject(); // Defined line 236: stores the prompt removal in the active project record.
+  persistProjectStore(); // Defined line 247: saves the updated prompt history.
+  render(); // Defined line 427: refreshes the prompt timeline.
 }
 
 // Rendering rebuilds all derived UI from the current state so lists, README, and score stay synced.
-function render() { // Line 418: refreshes all derived UI from the current project state.
-  renderProjectSwitcher(); // Defined line 428: refreshes saved-project dropdown options.
-  renderFeatures(); // Defined line 441: refreshes required and future feature lists.
-  renderPrompts(); // Defined line 467: refreshes the prompt timeline.
-  renderChecklist(); // Defined line 503: refreshes the submission checklist.
-  renderReadme(); // Defined line 540: refreshes the README draft output.
-  renderReadiness(); // Defined line 545: refreshes the readiness score.
+function render() { // Line 427: refreshes all derived UI from the current project state.
+  renderProjectSwitcher(); // Defined line 437: refreshes saved-project dropdown options.
+  renderFeatures(); // Defined line 450: refreshes required and future feature lists.
+  renderPrompts(); // Defined line 476: refreshes the prompt timeline.
+  renderChecklist(); // Defined line 512: refreshes the submission checklist.
+  renderReadme(); // Defined line 549: refreshes the README draft output.
+  renderReadiness(); // Defined line 554: refreshes the readiness score.
 }
 
 // Saved-project labels combine the project name with the last updated date in the dropdown.
-function renderProjectSwitcher() { // Line 428: rebuilds the saved-project dropdown labels.
+function renderProjectSwitcher() { // Line 437: rebuilds the saved-project dropdown labels.
   projectSwitcher.innerHTML = "";
 
   projectStore.projects.forEach((project) => { // Built-in API: creates one dropdown option per saved project.
     const option = document.createElement("option"); // Browser API: creates a dropdown option for a saved project.
     option.value = project.id;
-    option.textContent = getProjectLabel(project); // Defined line 523: formats the project label for the dropdown.
+    option.textContent = getProjectLabel(project); // Defined line 532: formats the project label for the dropdown.
     option.selected = project.id === projectStore.activeProjectId;
     projectSwitcher.append(option); // Browser API: adds the saved project option to the dropdown.
   });
 }
 
 // Feature rendering uses DOM text nodes instead of interpolated HTML to avoid XSS from saved content.
-function renderFeatures() { // Line 441: rebuilds required and future feature lists safely.
+function renderFeatures() { // Line 450: rebuilds required and future feature lists safely.
   requiredList.innerHTML = "";
   stretchList.innerHTML = "";
 
@@ -452,7 +461,7 @@ function renderFeatures() { // Line 441: rebuilds required and future feature li
     remove.className = "remove-button";
     remove.type = "button";
     remove.textContent = "Remove";
-    remove.addEventListener("click", () => removeFeature(index)); // Defined line 383: calls removeFeature for this feature row.
+    remove.addEventListener("click", () => removeFeature(index)); // Defined line 392: calls removeFeature for this feature row.
     item.append(remove); // Browser API: adds the remove button to the feature item.
 
     if (feature.type === "required") {
@@ -464,7 +473,7 @@ function renderFeatures() { // Line 441: rebuilds required and future feature li
 }
 
 // Prompt rendering also writes user content through textContent/createTextNode for XSS safety.
-function renderPrompts() { // Line 467: rebuilds the AI prompt timeline safely.
+function renderPrompts() { // Line 476: rebuilds the AI prompt timeline safely.
   promptList.innerHTML = "";
 
   state.prompts.forEach((entry, index) => { // Built-in API: renders every saved prompt entry.
@@ -493,14 +502,14 @@ function renderPrompts() { // Line 467: rebuilds the AI prompt timeline safely.
     remove.className = "remove-button";
     remove.type = "button";
     remove.textContent = "Remove";
-    remove.addEventListener("click", () => removePrompt(index)); // Defined line 410: calls removePrompt for this prompt row.
+    remove.addEventListener("click", () => removePrompt(index)); // Defined line 419: calls removePrompt for this prompt row.
     item.append(remove); // Browser API: adds the remove button to the prompt item.
     promptList.append(item); // Browser API: adds the prompt item to the timeline.
   });
 }
 
 // The readiness checklist contributes to the score and persists each checked item.
-function renderChecklist() { // Line 503: rebuilds the submission checklist and checkbox handlers.
+function renderChecklist() { // Line 512: rebuilds the submission checklist and checkbox handlers.
   checklist.innerHTML = "";
 
   checklistItems.forEach(([key, label]) => { // Built-in API: renders every checklist item.
@@ -510,9 +519,9 @@ function renderChecklist() { // Line 503: rebuilds the submission checklist and 
     input.checked = Boolean(state.checklist[key]); // Built-in API: converts saved checklist state into a checkbox value.
     input.addEventListener("change", () => { // Browser API: handles checklist state changes.
       state.checklist[key] = input.checked;
-      updateCurrentProject(); // Defined line 227: stores the changed checklist item in the active project.
-      persistProjectStore(); // Defined line 238: saves the updated checklist.
-      renderReadiness(); // Defined line 545: recalculates the score after checklist changes.
+      updateCurrentProject(); // Defined line 236: stores the changed checklist item in the active project.
+      persistProjectStore(); // Defined line 247: saves the updated checklist.
+      renderReadiness(); // Defined line 554: recalculates the score after checklist changes.
     });
 
     row.append(input, document.createTextNode(label)); // Browser API: safely adds checkbox and label text to the row.
@@ -520,7 +529,7 @@ function renderChecklist() { // Line 503: rebuilds the submission checklist and 
   });
 }
 
-function getProjectLabel(project) { // Line 523: creates the dropdown label for a saved project.
+function getProjectLabel(project) { // Line 532: creates the dropdown label for a saved project.
   const name = project.state.projectName?.trim() || "Untitled Project"; // Built-in API: trims the project name for dropdown display.
   const updatedAt = new Date(project.updatedAt); // Built-in API: converts the saved timestamp into a Date.
   const dateLabel = Number.isNaN(updatedAt.getTime()) // Built-in API: checks whether the timestamp is valid.
@@ -529,7 +538,7 @@ function getProjectLabel(project) { // Line 523: creates the dropdown label for 
   return `${name} - ${dateLabel}`;
 }
 
-function createProjectId() { // Line 532: creates a unique ID for each saved project.
+function createProjectId() { // Line 541: creates a unique ID for each saved project.
   if (window.crypto?.randomUUID) {
     return window.crypto.randomUUID(); // Browser API: uses the browser crypto API for a strong unique ID.
   }
@@ -537,12 +546,12 @@ function createProjectId() { // Line 532: creates a unique ID for each saved pro
   return `project-${Date.now()}-${Math.random().toString(16).slice(2)}`; // Built-in API: falls back to a timestamp/random ID when crypto is unavailable.
 }
 
-function renderReadme() { // Line 540: writes the generated README draft to the output panel.
-  readmeOutput.textContent = buildReadme(); // Defined line 564: builds and displays the latest README draft.
+function renderReadme() { // Line 549: writes the generated README draft to the output panel.
+  readmeOutput.textContent = buildReadme(); // Defined line 573: builds and displays the latest README draft.
 }
 
 // Readiness scoring turns completed planning fields, features, prompts, and checklist items into progress.
-function renderReadiness() { // Line 545: calculates and displays the submission readiness score.
+function renderReadiness() { // Line 554: calculates and displays the submission readiness score.
   const planFields = fields.filter((field) => state[field]).length; // Built-in API: counts completed planning fields.
   const hasRequired = state.features.some((feature) => feature.type === "required"); // Built-in API: checks for at least one required feature.
   const hasStretch = state.features.some((feature) => feature.type === "stretch"); // Built-in API: checks for at least one future improvement.
@@ -561,7 +570,7 @@ function renderReadiness() { // Line 545: calculates and displays the submission
 }
 
 // README generation converts the active project plan into a copyable Markdown draft.
-function buildReadme() { // Line 564: builds the Markdown README draft from planner data.
+function buildReadme() { // Line 573: builds the Markdown README draft from planner data.
   const projectName = state.projectName || "Project Name";
   const required = state.features
     .filter((feature) => feature.type === "required") // Built-in API: selects completed required features for README output.
@@ -624,8 +633,8 @@ AI was used to support planning, feature design, code generation, debugging, ver
 }
 
 // Copy README sends the generated Markdown draft to the clipboard and shows feedback.
-async function copyReadme() { // Line 627: copies the generated README draft to the clipboard.
-  await navigator.clipboard.writeText(buildReadme()); // Browser API plus defined line 564: builds and copies the latest README draft to the clipboard.
+async function copyReadme() { // Line 636: copies the generated README draft to the clipboard.
+  await navigator.clipboard.writeText(buildReadme()); // Browser API plus defined line 573: builds and copies the latest README draft to the clipboard.
   saveStatus.textContent = "README draft copied.";
   setTimeout(() => { // Browser API: clears the temporary copy message after a short delay.
     saveStatus.textContent = "";

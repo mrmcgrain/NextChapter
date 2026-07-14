@@ -739,3 +739,43 @@ A dedicated `seed.js` file now contains the default NextChapter project state, i
 **How this shows my thinking:**
 
 This makes the seeded data explicit and separates project content from app behavior, which makes the deployment state easier to verify.
+
+---
+
+## 38. Append Demo Seed Project
+
+**Prompt:**
+
+> If Project Launch Planner does not exist, append it to local state for demo purposes, as always add to Prompts and change log.
+
+**Why this mattered:**
+
+Existing browser localStorage can contain user-created projects but still be missing the seeded demo project needed for review.
+
+**What I learned or changed:**
+
+The app now checks the saved project collection during startup. If the seeded Project Launch Planner is missing, it appends the seed project from `seed.js`, preserves the existing active project, and persists the repaired collection after hydration.
+
+**How this shows my thinking:**
+
+This supports demos without erasing user state. The app adds the expected seeded project only when it is absent.
+
+---
+
+## 39. Prompt Timeline Spacing
+
+**Prompt:**
+
+> UI: let's add some spacing between Project history and the p tag underneath.
+
+**Why this mattered:**
+
+The prompt timeline needed more visual separation between the category label and the prompt paragraph so entries are easier to scan.
+
+**What I learned or changed:**
+
+The timeline category label now has bottom margin, adding space between labels such as `Project history` and the paragraph below.
+
+**How this shows my thinking:**
+
+Small spacing changes can make the prompt history more readable without changing the stored data or timeline behavior.
