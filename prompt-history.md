@@ -679,3 +679,23 @@ The bugfix branch was prepared for commit and push after confirming the empty sa
 **How this shows my thinking:**
 
 This keeps the remote repository aligned with the verified local fix so the bug can be reviewed or merged.
+
+---
+
+## 35. Default Prompt LocalStorage Bugfix
+
+**Prompt:**
+
+> Bugfix: I don't see the prompts on the GitHub Pages page. Please fix this for the default localStorage.
+
+**Why this mattered:**
+
+Older saved browser state could contain the default Project Launch Planner project without the newly seeded prompt-history entries.
+
+**What I learned or changed:**
+
+When the saved default Project Launch Planner state has no prompts, the app now refills prompts from the seeded prompt history. Intentionally blank projects created with New stay blank.
+
+**How this shows my thinking:**
+
+This fixes the migration path for existing browsers without overwriting user-created blank projects or unrelated saved project plans.
