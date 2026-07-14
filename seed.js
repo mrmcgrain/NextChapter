@@ -26,18 +26,8 @@ window.nextChapterSeed = {
         {
           "text": "Export project files as a downloadable package",
           "type": "stretch"
-        },
-        {
-          "text": "connect a DB for views outside of browser created in", "type": "stretch"
-
         }
-        ,
-        { "text": "Create a dark mode", "type": "stretch" }
-
       ],
-
-
-
       "prompts": [
         {
           "prompt": "We are going to make an application. I am going to paste all the requirements and thought process in from my ChatGPT session.",
@@ -259,6 +249,18 @@ window.nextChapterSeed = {
           "prompt": "Create a seed file. Within that file I want the Next Chapter project state including the prompt history.",
           "why": "The default project state should be easy to inspect and deploy as one complete payload instead of being hidden inside application logic.",
           "learning": "A dedicated `seed.js` file now contains the default NextChapter project state, including the project plan, features, checklist, and full prompt-history array. The app loads that seed before `script.js`.",
+          "category": "Project history"
+        },
+        {
+          "prompt": "If Project Launch Planner does not exist, append it to local state for demo purposes, as always add to Prompts and change log.",
+          "why": "Existing browser localStorage can contain user-created projects but still be missing the seeded demo project needed for review.",
+          "learning": "The app now checks the saved project collection during startup. If the seeded Project Launch Planner is missing, it appends the seed project from `seed.js`, preserves the existing active project, and persists the repaired collection after hydration.",
+          "category": "Project history"
+        },
+        {
+          "prompt": "UI: let's add some spacing between Project history and the p tag underneath.",
+          "why": "The prompt timeline needed more visual separation between the category label and the prompt paragraph so entries are easier to scan.",
+          "learning": "The timeline category label now has bottom margin, adding space between labels such as `Project history` and the paragraph below.",
           "category": "Project history"
         }
       ],

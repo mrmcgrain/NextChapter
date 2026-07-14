@@ -2,6 +2,27 @@
 
 All notable changes to Project Launch Planner are documented here.
 
+## 2026-07-14 - Prompt Timeline Spacing
+
+### Changed
+
+- Added spacing between each prompt timeline category label and the paragraph beneath it for better readability.
+
+### Verified
+
+- Confirmed CSS syntax by inspection and ran repository whitespace checks.
+
+## 2026-07-14 - Demo Seed Project Append
+
+### Changed
+
+- Added a startup migration that appends the seeded Project Launch Planner project to saved localStorage projects when it is missing.
+- Preserved existing saved projects and active project selection while adding the demo project for review purposes.
+
+### Verified
+
+- Added and ran a localStorage regression test for appending the missing seeded demo project.
+
 ## 2026-07-14 - Seed File Source of Truth
 
 ### Changed
