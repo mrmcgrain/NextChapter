@@ -30,7 +30,7 @@ const defaultState = {
 };
 
 const validFeatureTypes = new Set(["required", "stretch"]); // Built-in API: creates the allowed feature-type lookup.
-let hasHydrated = false;
+let hasHydrated = false, shouldPersistHydratedStore = false;
 let projectStore = loadProjectStore(); // Defined line 91: initializes saved projects from browser storage.
 let state = getCurrentProject(); // Defined line 243: loads the active project state into memory.
 
@@ -85,7 +85,7 @@ document.querySelector("#deleteProject").addEventListener("click", deleteProject
 document.querySelector("#resetPlan").addEventListener("click", resetPlan); // Defined line 287: calls resetPlan from the Clear Planner button.
 
 render(); // Defined line 443: draws the initial UI from loaded state.
-hasHydrated = true;
+hasHydrated = true; if (shouldPersistHydratedStore) persistProjectStore(); // Defined line 263: saves any repaired default prompt history back to localStorage after initial hydration.
 
 // Saved-project storage loads the multi-project collection and falls back to older single-project data.
 function loadProjectStore() { // Line 91: loads saved project data from localStorage.
@@ -162,7 +162,7 @@ function normalizeState(rawState = {}) { // Line 145: fills missing planner fiel
     ? source.prompts.map(normalizePrompt).filter(Boolean) // Defined line 223: validates prompt entries, then filters invalid results.
     : [];
   if (!source.isBlankProject && normalized.projectName === defaultState.projectName && normalized.prompts.length === 0) {
-    normalized.prompts = buildDefaultPromptHistory();
+    normalized.prompts = buildDefaultPromptHistory(); shouldPersistHydratedStore = true; // Defined line 660: restores seeded prompt history and marks the repaired state for persistence.
   }
   normalized.checklist = { ...structuredClone(defaultState.checklist), ...(source.checklist || {}) }; // Built-in API: merges saved checklist flags over defaults.
   return normalized;
@@ -867,6 +867,12 @@ function buildDefaultPromptHistory() { // Line 660: returns the project prompt h
           "prompt": "Bugfix: I don't see the prompts on the GitHub Pages page. Please fix this for the default localStorage.",
           "why": "Older saved browser state could contain the default Project Launch Planner project without the newly seeded prompt-history entries.",
           "learning": "When the saved default Project Launch Planner state has no prompts, the app now refills prompts from the seeded prompt history. Intentionally blank projects created with New stay blank.",
+          "category": "Project history"
+      },
+      {
+          "prompt": "Locally local storage has the prompt array full, on the deployed GitHub Pages site the prompt array is empty still. Please ensure that the NextChapter project includes the prompt array to see the history on the deployed site.",
+          "why": "The deployed site needed the same visible prompt history as the local app, and the browser's stored default project should contain the prompt array after migration.",
+          "learning": "The app already repaired empty default prompts in memory, but initial hydration avoided writing to localStorage. A targeted hydration migration now persists the repaired default prompt array after load while still protecting unrelated saved project data.",
           "category": "Project history"
       }
   ];

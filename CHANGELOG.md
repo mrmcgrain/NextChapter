@@ -2,6 +2,17 @@
 
 All notable changes to Project Launch Planner are documented here.
 
+## 2026-07-14 - Deployed Prompt Array Persistence Fix
+
+### Fixed
+
+- Ensured repaired default Project Launch Planner prompt history is written back into localStorage after the deployed app hydrates.
+- Kept first-load storage protection in place so normal saved project data is not overwritten during page initialization.
+
+### Verified
+
+- Confirmed the default prompt seed contains the full prompt-history set before pushing to `main`.
+
 ## 2026-07-13 - Default Prompt LocalStorage Fix
 
 ### Fixed

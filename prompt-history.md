@@ -699,3 +699,23 @@ When the saved default Project Launch Planner state has no prompts, the app now 
 **How this shows my thinking:**
 
 This fixes the migration path for existing browsers without overwriting user-created blank projects or unrelated saved project plans.
+
+---
+
+## 36. Deployed Prompt Array Persistence Fix
+
+**Prompt:**
+
+> Locally local storage has the prompt array full, on the deployed GitHub Pages site the prompt array is empty still. Please ensure that the NextChapter project includes the prompt array to see the history on the deployed site.
+
+**Why this mattered:**
+
+The deployed site needed the same visible prompt history as the local app, and the browser's stored default project should contain the prompt array after migration.
+
+**What I learned or changed:**
+
+The app already repaired empty default prompts in memory, but initial hydration avoided writing to localStorage. A targeted hydration migration now persists the repaired default prompt array after load while still protecting unrelated saved project data.
+
+**How this shows my thinking:**
+
+This separated display repair from storage repair, which matters because deployed browser state can keep older localStorage even after the source code is updated.
