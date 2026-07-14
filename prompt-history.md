@@ -719,3 +719,23 @@ The app already repaired empty default prompts in memory, but initial hydration 
 **How this shows my thinking:**
 
 This separated display repair from storage repair, which matters because deployed browser state can keep older localStorage even after the source code is updated.
+
+---
+
+## 37. Seed File Source of Truth
+
+**Prompt:**
+
+> Create a seed file. Within that file I want the Next Chapter project state including the prompt history.
+
+**Why this mattered:**
+
+The default project state should be easy to inspect and deploy as one complete payload instead of being hidden inside application logic.
+
+**What I learned or changed:**
+
+A dedicated `seed.js` file now contains the default NextChapter project state, including the project plan, features, checklist, and full prompt-history array. The app loads that seed before `script.js`.
+
+**How this shows my thinking:**
+
+This makes the seeded data explicit and separates project content from app behavior, which makes the deployment state easier to verify.

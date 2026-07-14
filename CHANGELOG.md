@@ -2,6 +2,18 @@
 
 All notable changes to Project Launch Planner are documented here.
 
+## 2026-07-14 - Seed File Source of Truth
+
+### Changed
+
+- Added `seed.js` as the source of truth for the default NextChapter project state, including the full prompt-history array.
+- Loaded `seed.js` before `script.js` so the deployed app initializes from the seeded project payload.
+
+### Verified
+
+- Confirmed the seed prompt count matches `prompt-history.md`.
+- Ran the seed-backed localStorage regression tests for default prompts, refresh persistence, and blank project migration.
+
 ## 2026-07-14 - Deployed Prompt Array Persistence Fix
 
 ### Fixed
