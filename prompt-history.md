@@ -639,3 +639,43 @@ The changelog already included the default-state updates, and the prompt history
 **How this shows my thinking:**
 
 This keeps the repository history, changelog, and prompt history aligned with the latest application behavior.
+
+---
+
+## 33. New Project Blank State Bugfix
+
+**Prompt:**
+
+> Bug: new should clear all fields for a new project.
+
+**Why this mattered:**
+
+After the app started using the project history as its default state, the New button began copying that seeded state instead of creating a blank project.
+
+**What I learned or changed:**
+
+A separate blank project state was added for the New action. Fresh browsers still start with the populated Project Launch Planner default, older empty saved states upgrade to that default, and clicking New creates an empty project with clear plan fields, no features, no prompts, and an unchecked checklist.
+
+**How this shows my thinking:**
+
+This separates two different concepts: the demo state shown to first-time visitors and the blank state users expect when starting a new saved project.
+
+---
+
+## 34. Push New Project Bugfix
+
+**Prompt:**
+
+> Looks good, go ahead and push.
+
+**Why this mattered:**
+
+The New project blank-state fix needed to be committed and published to the remote bugfix branch.
+
+**What I learned or changed:**
+
+The bugfix branch was prepared for commit and push after confirming the empty saved-state migration and New button behavior.
+
+**How this shows my thinking:**
+
+This keeps the remote repository aligned with the verified local fix so the bug can be reviewed or merged.

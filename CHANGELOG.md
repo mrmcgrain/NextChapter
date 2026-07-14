@@ -2,6 +2,18 @@
 
 All notable changes to Project Launch Planner are documented here.
 
+## 2026-07-13 - New Project Blank State Fix
+
+### Fixed
+
+- Fixed the New button so it creates a blank saved project instead of copying the seeded default demo state.
+- Kept the fresh-browser default state populated with the Project Launch Planner plan and prompt history.
+- Upgraded older empty saved states to the seeded default while preserving intentionally blank new projects.
+
+### Verified
+
+- Confirmed JavaScript syntax with `node --check script.js`.
+
 ## 2026-07-13 - Default Prompt History State
 
 ### Added
