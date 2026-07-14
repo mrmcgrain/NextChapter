@@ -439,3 +439,203 @@ The saved-project switcher now places Duplicate before Delete while keeping the 
 **How this shows my thinking:**
 
 This small UI adjustment reduces the chance of reaching for a destructive action by accident and keeps the control order aligned with user intent.
+
+---
+
+## 23. Code Feature Comments
+
+**Prompt:**
+
+> Please create comments in the code explaining each feature.
+
+**Why this mattered:**
+
+The project must be understandable during review. Comments help connect the visible application features to the code that powers them.
+
+**What I learned or changed:**
+
+Comments were added around the main HTML sections and JavaScript feature groups for saved projects, planner inputs, feature tracking, prompt tracking, README generation, readiness scoring, localStorage persistence, and XSS-safe rendering.
+
+**How this shows my thinking:**
+
+The comments explain why each feature area exists without documenting every line, so the code stays readable and still shows the structure of the application.
+
+---
+
+## 24. Function Purpose and Line Comments
+
+**Prompt:**
+
+> After each function call in script.js add a comment on the purpose and line number of said function.
+
+**Why this mattered:**
+
+The reviewer needs to understand what each JavaScript function does and where it lives in the file.
+
+**What I learned or changed:**
+
+Each function declaration in `script.js` now includes an inline comment with its line number and purpose. The line numbers were verified after editing so the comments match the final file.
+
+**How this shows my thinking:**
+
+This makes the implementation easier to discuss during review because each function identifies its role directly at the point where it is defined.
+
+---
+
+## 25. Function Call Purpose Comments
+
+**Prompt:**
+
+> Do the same on each function call not just definition.
+
+**Why this mattered:**
+
+The earlier comments explained each function definition, but the reviewer also needs to see why functions and browser APIs are called throughout the file.
+
+**What I learned or changed:**
+
+Inline comments were added to the main function-call lines in `script.js`, including setup calls, localStorage calls, render calls, saved-project actions, DOM creation, event handlers, checklist updates, README generation, and clipboard behavior.
+
+**How this shows my thinking:**
+
+This documents the flow of the application at the point where each behavior is triggered, making the code easier to trace from user action to state update to rendered output.
+
+---
+
+## 26. Function Definition Line References
+
+**Prompt:**
+
+> I'm sorry, let me be clear. The line numbers we are adding are references to where the function is defined, not the line it's called at.
+
+**Why this mattered:**
+
+The previous call-site comments used the call-site line number, which was not the intended reference. The useful reference is where the local function is defined.
+
+**What I learned or changed:**
+
+Call-site comments in `script.js` now use `Defined line X` for local app functions. Browser and built-in API calls are labeled as `Browser API` or `Built-in API` instead of receiving misleading local line numbers.
+
+**How this shows my thinking:**
+
+This makes the comments more accurate for code review because a reader can jump from a call to the function definition that explains the implementation.
+
+---
+
+## 27. Commit History Documentation
+
+**Prompt:**
+
+> Make a commitHistory.md with the commit history.
+
+**Why this mattered:**
+
+The project now has enough Git history that a separate commit-history document helps explain how the work evolved over time.
+
+**What I learned or changed:**
+
+A `commitHistory.md` file was created from the actual Git log. It lists each commit hash, date, message, and a short explanation of the project impact.
+
+**How this shows my thinking:**
+
+This gives reviewers a direct bridge between the Git history and the project story, showing how planning, deployment, saved projects, security, persistence, UI, and documentation work happened over time.
+
+---
+
+## 28. Push Documentation and Comment Updates
+
+**Prompt:**
+
+> Push the new changes up.
+
+**Why this mattered:**
+
+The latest documentation and code-comment updates needed to be committed and published to the remote branch.
+
+**What I learned or changed:**
+
+The current UI branch was prepared for a commit and push containing the code comments, function-call reference corrections, commit history document, and prompt-history updates.
+
+**How this shows my thinking:**
+
+This keeps the remote branch current with the local project documentation and makes the latest review materials available on GitHub.
+
+---
+
+## 29. Prompt Why This Mattered Field
+
+**Prompt:**
+
+> Feature: why this mattered section. On the prompts page add a section between prompt used and what changed for "Why this mattered".
+
+**Why this mattered:**
+
+Prompt history is stronger when it explains not only what was asked and what changed, but also why that prompt was important to the project.
+
+**What I learned or changed:**
+
+The Prompts page now includes a `Why this mattered` textarea between `Prompt used` and `What changed`. Saved prompt entries persist this new field and render it in the prompt timeline.
+
+**How this shows my thinking:**
+
+This makes the app's built-in prompt tracker match the narrative structure already used in `prompt-history.md`, helping users capture better AI collaboration evidence as they work.
+
+---
+
+## 30. Default Prompt History State
+
+**Prompt:**
+
+> Feature: nice, now as a default state for the app, on any browser, take our prompt history and make that the default state.
+
+**Why this mattered:**
+
+A new browser previously opened with an empty prompt tracker. The project requirement is easier to demonstrate if the app starts with the actual prompt history already loaded.
+
+**What I learned or changed:**
+
+The app's default prompt state now seeds the prompt tracker from the project prompt history, including prompt text, why it mattered, and what changed.
+
+**How this shows my thinking:**
+
+This turns the documentation work into part of the app experience, so the live planner immediately shows the AI collaboration story instead of requiring a user to re-enter it.
+
+---
+
+## 31. Default Plan State
+
+**Prompt:**
+
+> Update the default state for Plan from the README and default saved project as "Project Launch Planner".
+
+**Why this mattered:**
+
+A fresh browser should demonstrate the actual project immediately, not start with a blank plan.
+
+**What I learned or changed:**
+
+The default Plan fields now use the Project Launch Planner details from the README, and the default saved project name is `Project Launch Planner`.
+
+**How this shows my thinking:**
+
+This aligns the live app, README, and default browser state so reviewers see the same project story across the application and documentation.
+
+---
+
+## 32. Push Default State Updates
+
+**Prompt:**
+
+> Looks great, make sure we update the prompt history, changelog and go ahead and push the new changes please.
+
+**Why this mattered:**
+
+The default prompt-history and Plan state changes needed to be documented and published to the remote feature branch.
+
+**What I learned or changed:**
+
+The changelog already included the default-state updates, and the prompt history was updated with this push request before committing and pushing the branch.
+
+**How this shows my thinking:**
+
+This keeps the repository history, changelog, and prompt history aligned with the latest application behavior.
